@@ -1,0 +1,137 @@
+\section{Experimental Study}
+\label{sec:experiments}
+
+\subsection{Scenario tree}
+\label{sec:scentree}
+We use a two-stage design: one-factor-at-a-time (OFAT) screening to rank the
+levers, followed by a $2^k$ factorial on the highest-impact levers, then a
+demand sweep for 2030 and the Industry~4.0 scrap scenario. The OFAT branch is
+ordered to test the analytically predicted constraints
+(Sec.~\ref{sec:capacity}) first.
+
+\begin{figure}[H]
+\centering
+\begin{forest}
+  for tree={
+    grow'=0, draw, rounded corners, font=\footnotesize,
+    edge={-Stealth}, l sep=10mm, s sep=2mm, anchor=west,
+    child anchor=west, parent anchor=east, align=left}
+  [Baseline\\(bottleneck ID)
+    [OFAT screening
+      [+1 Drying / faster clean]
+      [+1 Cleaning team]
+      [Resequence (group by product)]
+      [+1 Packaging line]
+    ]
+    [$2^k$ factorial\\(top levers)
+      [Best combination]
+    ]
+    [2030 demand sweep\\($\times$1.25 / $\times$1.5 / $\times$2)
+      [Max sustainable throughput]
+    ]
+    [Industry 4.0\\(scrap 10\%$\rightarrow$4\%)]
+  ]
+\end{forest}
+\caption{Scenario tree for the experimental study.}
+\label{fig:scentree}
+\end{figure}
+
+\subsection{Factorial design}
+\label{sec:factorial}
+After OFAT screening, the $2^k$ factorial is run on the three highest-impact
+levers identified by Table~\ref{tab:capacity} and the screening results.
+
+\begin{table}[H]
+\centering
+\caption{$2^k$ factor settings (low $=-$, high $=+$).}
+\label{tab:factorial}
+\begin{tabularx}{\textwidth}{l X X}
+\toprule
+Factor & Low ($-$) & High ($+$) \\
+\midrule
+Drying capacity        & 1 dryer & 2 dryers \\
+Cleaning-team capacity & 1 & 2 \\
+Sequencing             & plan order & grouped by product \\
+% Swap a factor for "+1 packaging line" if OFAT ranks it above one of these.
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Results: throughput across scenarios}
+\label{sec:expresults}
+% TODO: KPI-vs-scenario figures (bar charts with CI error bars). Compare across
+% scenarios; do NOT include every run. Lead with the throughput chart.
+\begin{figure}[H]
+\centering
+\fbox{\parbox[c][40mm][c]{0.7\textwidth}{\centering\itshape
+Throughput by scenario (with 95\% CI error bars) - placeholder.}}
+\caption{Headline KPI comparison across scenarios.}
+\label{fig:expresults}
+\end{figure}
+
+\subsection{Bottleneck shift across scenarios}
+\label{sec:btshift}
+We report per-station utilisation in every scenario, not only throughput, to
+show \emph{which} resource binds as capacity is added.
+
+\begin{table}[H]
+\centering
+\caption{Utilisation (\%) by station and scenario. Bold = binding constraint.}
+\label{tab:btshift}
+\begin{tabularx}{\textwidth}{l c c c c c}
+\toprule
+Scenario & Drying & Clean team & Packaging & Premix & Throughput \\
+\midrule
+Baseline              & \textbf{[\,]} & [\,] & [\,] & [\,] & [\,] \\
++1 dryer              & [\,] & \textbf{[\,]} & [\,] & [\,] & [\,] \\
++1 dryer, +clean team & [\,] & [\,] & \textbf{[\,]} & [\,] & [\,] \\
+Best combination      & [\,] & [\,] & [\,] & [\,] & [\,] \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{2030 demand and Industry 4.0}
+\label{sec:demand40}
+Using the calibrated baseline, we scale demand via the \texttt{demandMultiplier}
+parameter to locate the maximum weekly volume the line can clear before the
+backlog grows unbounded, on both the baseline and the best configuration.
+
+\begin{table}[H]
+\centering
+\caption{Maximum sustainable weekly throughput under rising demand.}
+\label{tab:demand}
+\begin{tabularx}{\textwidth}{l c c c}
+\toprule
+Configuration & $\times$1.25 & $\times$1.5 & $\times$2.0 \\
+\midrule
+Baseline         & [\,] & [\,] & [\,] \\
+Best combination & [\,] & [\,] & [\,] \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\paragraph{Industry 4.0 - a throughput interaction, not just a yield gain.}
+Reducing press scrap from \SI{10}{\percent} to \SI{4}{\percent} raises good
+tablets per batch, but because packaging (and the constraint) time scales with
+\texttt{tabletCount}, fewer scrapped tablets means \emph{more} tablets reaching
+the constraint. We therefore report whether the scrap reduction translates into
+higher \emph{shipped} throughput or merely shifts load onto the bottleneck
+\,(\,result: [\,]\,).
+
+\subsection{Managerial value: benefit vs.\ effort}
+\label{sec:value}
+\begin{table}[H]
+\centering
+\caption{Each lever's throughput gain against implementation effort.}
+\label{tab:value}
+\begin{tabularx}{\textwidth}{l c X}
+\toprule
+Lever & $\Delta$ throughput & Implementation effort / cost \\
+\midrule
+Resequence (group by product) & [\,]\% & Free - scheduling change only \\
+$+1$ cleaning team            & [\,]\% & Low - additional shift / hire \\
+$+1$ dryer / shorter clean    & [\,]\% & Medium - equipment, moderate lead time \\
+$+1$ packaging line           & [\,]\% & High - capex, long lead time (the 2030 plan defers this) \\
+\bottomrule
+\end{tabularx}
+\end{table}

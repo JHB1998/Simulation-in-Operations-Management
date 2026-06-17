@@ -1,0 +1,32 @@
+\section{Input Modelling}
+\label{sec:input}
+
+% Mandatory. Document how each distribution was obtained.
+Deterministic operation times and frequencies are taken directly from
+\texttt{FermaCore\_input\_data.xlsx}. Three quantities were fitted from the
+supplied observation sets using the distribution fitter, with a
+Kolmogorov--Smirnov (KS) goodness-of-fit check.
+
+\begin{table}[H]
+\centering
+\caption{Fitted distributions. Parameters cross-checked independently (KS).}
+\label{tab:fits}
+\begin{tabularx}{\textwidth}{l l l X}
+\toprule
+\textbf{Quantity} & \textbf{Distribution} & \textbf{Parameters} & \textbf{AnyLogic} \\
+\midrule
+Drying time (h/batch)        & Normal    & $\mu=4.00,\ \sigma=0.39$ (KS $p=0.93$) & \texttt{normal(0.393, 3.998)} \\
+Premix repair (min)          & Lognormal & $\mu_{\log}=3.15,\ \sigma_{\log}=1.09$ (KS $p=0.24$) & \texttt{lognormal(0, 3.153, 1.087)} \\
+Packaging-line repair (min)  & Lognormal & $\mu_{\log}=5.18,\ \sigma_{\log}=1.00$ (KS $p=0.65$) & \texttt{lognormal(0, 5.180, 0.999)} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\paragraph{Given distributions (not fitted).}
+Premix new Triangular(3.5,4.0,4.5) h; premix old Triangular(4.5,5.5,6.5) h;
+granulation Normal($\mu=1$, $\sigma=0.1$) h; compression \SI{2}{h}/batch;
+coating Triangular(1.5,2.0,2.5) h; packaging \SI{30000}{tablets/hour}.
+Failure inter-arrival: packaging Exponential(mean 4 h); premix old
+Weibull($\beta{=}2.5,\alpha{=}1.5$) days; premix new Weibull($\beta{=}3.5,\alpha{=}0.5$) days.
+
+% TODO: insert histogram + fitted-overlay screenshots from the fitter (figures/).

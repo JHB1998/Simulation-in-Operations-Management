@@ -1,0 +1,167 @@
+%% Fonts and Typography
+\usepackage{beramono}
+\usepackage{titlesec}
+% SECTION: sans, bold, large, with thin rule underneath
+\titleformat{\section}
+  {\huge\bfseries}
+  {\thesection}{0.8em}{}
+
+\titlespacing*{\section}{0pt}{1.2\baselineskip}{0.9\baselineskip}
+
+% SUBSECTION: sans, bold, no rule
+\titleformat{\subsection}
+  {\Large\bfseries}
+  {\thesubsection}{0.8em}{}
+
+\titlespacing*{\subsection}{0pt}{1.0\baselineskip}{0.7\baselineskip}
+
+% SUBSUBSECTION: sans, bold, no rule
+\titleformat{\subsubsection}
+  {\large\bfseries}
+  {\thesubsubsection}{0.8em}{}
+
+\titlespacing*{\subsubsection}{0pt}{0.85\baselineskip}{0.5\baselineskip}
+\usepackage{amsmath, amssymb}
+\usepackage{setspace}
+
+%% Graphics and Colors
+\usepackage{graphicx} 
+\graphicspath{ {figures/}{Billeder/} }
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, positioning, shapes.geometric, decorations.pathmorphing}
+\usepackage{color, colortbl}
+
+%% Tables and Floats
+\usepackage{floatrow}
+\newfloatcommand{capbtabbox}{table}[][\FBwidth]
+\usepackage{booktabs}
+\usepackage{tabularx}
+
+% Hyperref setup
+\usepackage[hidelinks]{hyperref}
+\definecolor{LinkBlue}{HTML}{3B6EA8}   % muted blue
+\definecolor{CiteGreen}{HTML}{2F8F6B}  % muted green
+\definecolor{UrlPurple}{HTML}{7A5EA8}  % muted purple
+
+\hypersetup{
+  unicode=true,
+  colorlinks=true,
+  linkcolor=LinkBlue,     % internal links (sections, equations, figures, toc)
+  citecolor=CiteGreen,    % citations
+  urlcolor=UrlPurple,     % urls
+  filecolor=UrlPurple,    % local file links (rare)
+  menucolor=LinkBlue,
+}
+\usepackage{pdfpages}
+\usepackage{url}
+
+%% Code Listings
+\usepackage{soul}
+
+% Table float box with bottom caption, box width adjusted to content
+\usepackage{forest}
+
+%% Miscellaneous
+\usepackage{blindtext}
+\usepackage{circuitikz}
+\usepackage{subfiles}
+\usepackage{adjustbox}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{soul}
+\usepackage{wrapfig}
+\usepackage{booktabs}
+\usepackage{subcaption}
+\usepackage{float}
+
+%% Custom Commands and Environments
+\makeatletter
+\renewcommand*\env@matrix[1][*\c@MaxMatrixCols c]{%
+   \hskip -\arraycolsep
+   \let\@ifnextchar\new@ifnextchar
+   \array{#1}}
+\makeatother
+
+%% Matematik og kode formatering
+\usepackage{physics}
+\usepackage{amsmath}
+\usepackage{minted}
+\usepackage[dvipsnames]{xcolor}
+\setminted{
+    frame=lines,
+    framesep=2mm,
+    baselinestretch=1.2,
+    fontsize=\small,
+    linenos,
+    numbersep=5pt,
+    xleftmargin=10pt,
+    tabsize=2,
+    breaklines=true,
+    breakanywhere=true,
+    style=tango
+}
+
+
+
+% new
+\usepackage{siunitx}
+\usepackage[table]{xcolor}
+\usepackage{makecell}
+\usepackage{caption}
+\usepackage{booktabs}
+\usepackage{makecell}
+\usepackage{siunitx}
+\usepackage{rotating}
+\usepackage{caption}
+
+
+\sisetup{
+  round-mode = places,
+  round-precision = 2,
+  retain-explicit-plus = true,
+  detect-weight = true,
+  detect-inline-weight = math
+}
+\newcommand{\pos}[1]{\textcolor{teal!70!black}{+#1}}
+\renewcommand{\neg}[1]{\textcolor{red!75!black}{#1}}
+
+
+
+%% Basic Document Settings
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[top=2.5cm,bottom=2.5cm,left=1.8cm,right=1.8cm]{geometry}
+\usepackage{parskip}
+\usepackage{xcolor}
+\usepackage{newpxmath}
+%% \usepackage{newpxtext}
+\usepackage{graphicx}
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\footrulewidth}{0.4pt}
+\linespread{1}
+
+%% BIBLIOGRAPHY
+\usepackage[
+backend=biber,
+style=ieee,
+sorting=ynt
+]{biblatex}
+\addbibresource{references.bib}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% HEADER / FOOTER Customization
+\rhead{\includegraphics[height=7.5mm]{Billeder/Danmarks_Tekniske_Universitet_(logo).svg.png}}
+\lhead{{\scshape FermaCore: A Discrete-Event Simulation Study} - 42417}
+\rfoot{Page \thepage\,/ \pageref{LastPage}}
+\lfoot{\textit{Group XX --- s224927, s2XXXXX}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

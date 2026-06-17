@@ -1,0 +1,42 @@
+\documentclass[a4paper, 11pt]{article}
+
+\input{preambling&packages}
+
+% =====================================================================
+%  42417 Simulation in Operations Management -- Case Study Project
+%  Manufacturing case: FermaCore Labs
+%  HARD PAGE LIMIT: 15 pages INCLUDING the front page. Stay lean.
+%  Report structure is fixed by the case brief -- do NOT reorder.
+% =====================================================================
+
+\begin{document}
+
+\input{title}
+\newpage
+\setcounter{page}{0}
+\tableofcontents
+\newpage
+
+% --- Section numbering follows the mandatory case structure ---
+\input{Sections/01Intro}                 % Objective of the study
+\input{Sections/02Collaboration}         % Statement of collaboration
+\input{Sections/03Performance}           % KPIs + rationale
+\input{Sections/04Conceptual}            % Flow chart + activity diagram
+\input{Sections/05Assumptions}           % Documented assumptions
+\input{Sections/06InputModeling}         % Distribution fitting
+\input{Sections/07VerificationValidation}% V&V + calibration
+\input{Sections/08OutputAnalysis}        % Replications / half-width
+\input{Sections/09ExperimentalStudy}     % Scenario tree + results
+\input{Sections/10Conclusions}           % Conclusions & insights
+
+\newpage
+\printbibliography
+\addcontentsline{toc}{section}{References}
+
+% Appendix does NOT count toward the 15-page main limit only if the
+% graders treat it as such -- CHECK the brief. Here it says "ALL pages".
+% So keep appendices to genuinely optional supporting material.
+\newpage
+\input{Appendix}
+
+\end{document}

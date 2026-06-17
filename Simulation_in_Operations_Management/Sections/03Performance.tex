@@ -1,0 +1,27 @@
+\section{Performance Management (KPIs)}
+\label{sec:kpi}
+
+% Mandatory: list KPIs AND argue why. ~0.75 page.
+We measure four headline KPIs and one secondary KPI, chosen to expose the
+constraint and to speak directly to management's goal of maximising output.
+
+\begin{table}[H]
+\centering
+\caption{Performance metrics used in this study.}
+\label{tab:kpis}
+\begin{tabularx}{\textwidth}{l l X}
+\toprule
+\textbf{KPI} & \textbf{Type} & \textbf{Why it was chosen} \\
+\midrule
+Weekly throughput (good bottles / tablets) & Headline & Directly operationalises the 2030 goal of maximising output. \\
+Resource utilisation per station & Headline & Primary bottleneck detector: the station near \SI{100}{\percent} while others starve is the constraint. \\
+Batch flow time (release $\rightarrow$ shipped) & Headline & Responsiveness; sensitive to cleaning-team contention and changeovers. \\
+WIP / queue length per station & Headline & Localises \emph{where} batches accumulate; corroborates utilisation. \\
+Scrap rate / overall yield & Secondary & Links to the Industry~4.0 lever (press scrap \SI{10}{\percent}$\rightarrow$\SI{4}{\percent}). \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+% Constraint we respect but do not analyse heavily:
+The planned-vs-actual completion date (the $\le 1$-day deviation constraint) is
+respected as a modelling constraint rather than reported as a headline KPI.

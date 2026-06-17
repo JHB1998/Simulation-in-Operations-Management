@@ -1,0 +1,28 @@
+\section{Documented Assumptions}
+\label{sec:assumptions}
+
+% Mandatory. Keep as a tight list; this is where examiners look for rigour.
+\begin{enumerate}\setlength\itemsep{1pt}
+  \item One agent represents one process-batch. The production plan specifies
+        \SI{150}{\kilo\gram} of pre-weighed active-ingredient powder blend per
+        batch; \SI{75}{\kilo\gram} of excipients is added in premix, giving a
+        \SI{225}{\kilo\gram} batch. With \SI{500}{\milli\gram} active and
+        \SI{250}{\milli\gram} excipient per \SI{750}{\milli\gram} tablet, each
+        batch yields \num{300000} tablets
+        ($\text{tablets} = \text{kg}_{\text{active}} \times 2000$) before yield losses.
+  \item Batches never mix (full traceability); each is a separate entity end-to-end.
+  \item Time unit: \textbf{hours}. Horizon: the 5-day plan, run until the last
+        batch is shipped (terminating).
+  \item Arrivals follow the \texttt{Plan} table exactly (50 batches, 1--5 Jul,
+        10/day, mix 17 CoreTab / 18 PlusTab / 15 MaxTab).
+  \item Premix routes to whichever unit (old/new) is free; failure during
+        processing scraps the whole batch.
+  \item A single shared \texttt{cleaningTeam} (capacity 1) performs all cleaning,
+        setup, changeover \emph{and} repairs (seize/delay/release).
+  \item CoreTab skips coating; PlusTab and MaxTab are coated.
+  \item Packaging is rate-based at \SI{30000}{tablets/hour} per line; leftover
+        tablets that cannot fill a full bottle are scrapped.
+  \item Yields: premix Triangular(98.5\%,99\%,99.5\%); press scrap \SI{10}{\percent}
+        (baseline); packaging Triangular(99\%,99.5\%,99.8\%). Drying yield 100\%.
+  \item Repairs and the cleaning team start empty-and-idle each simulated week.
+\end{enumerate}
