@@ -7,7 +7,7 @@
 <AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.9.8.202602271013" AlpVersion="8.9.7">
 <Model>
 	<Id>1782117159874</Id>
-	<Name><![CDATA[FermaCore_BASE_Test2_Magle]]></Name>
+	<Name><![CDATA[FermaCore_BASELINE_READY_Magle]]></Name>
 	<EngineVersion>6</EngineVersion>
 	<JavaPackageName><![CDATA[fermacore]]></JavaPackageName>
 	<ModelTimeUnit><![CDATA[Hour]]></ModelTimeUnit>
@@ -20,6 +20,8 @@
 			<Name><![CDATA[Main]]></Name>
 			<StartupCode><![CDATA[// === VERIFICATION: DATA IMPORT CHECK ===
 traceln("=== DATA CHECK ===");
+originalProductPlan = productPlan.clone();
+ensurePackagingArrays();
 traceln("productPlan.length = " + productPlan.length + "  (expect 50)");
 traceln("arrivalTimes.length = " + arrivalTimes.length + "  (expect 50)");
 int _core=0, _plus=0, _max=0;
@@ -31,11 +33,14 @@ for (String p : productPlan) {
 }
 traceln("CoreTab=" + _core + "  PlusTab=" + _plus + "  MaxTab=" + _max + "  (expect 17 / 18 / 15)");
 traceln("First: " + productPlan[0] + "  Last: " + productPlan[productPlan.length-1]);
+traceln("Packaging line memory slots = " + lastProductOnPackLine.length);
 traceln("=== END DATA CHECK ===");
 
-// Optional OFAT scenario: resequence all 50 planned batches by product.
-// The arrival times stay unchanged; only product order changes.
+// Optional scenario: resequence all 50 planned batches by product.
+// Keep this OFF for the strict baseline. It is useful for a scenario, but it should be
+// discussed against the ±1 day production-plan constraint in the report.
 if (groupByProduct) {
+    traceln("WARNING: groupByProduct=true. This is a sequencing scenario, not the strict draft-plan baseline.");
     java.util.Arrays.sort(productPlan);
 }
 ]]></StartupCode>
@@ -133,7 +138,7 @@ if (groupByProduct) {
 				<Variable Class="PlainVariable">
 					<Id>1783000000037</Id>
 					<Name><![CDATA[arrivalTimes]]></Name>
-					<X>-460</X><Y>80</Y>
+					<X>-530</X><Y>20</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -148,7 +153,7 @@ if (groupByProduct) {
 				<Variable Class="PlainVariable">
 					<Id>1783000000038</Id>
 					<Name><![CDATA[productPlan]]></Name>
-					<X>-460</X><Y>110</Y>
+					<X>-530</X><Y>40</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -163,7 +168,7 @@ if (groupByProduct) {
 				<Variable Class="PlainVariable">
 					<Id>1783000000039</Id>
 					<Name><![CDATA[sourceIndex]]></Name>
-					<X>-460</X><Y>140</Y>
+					<X>-530</X><Y>60</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -178,7 +183,7 @@ if (groupByProduct) {
 				<Variable Class="PlainVariable">
 					<Id>1783000000040</Id>
 					<Name><![CDATA[lastProductOnLine]]></Name>
-					<X>-460</X><Y>170</Y>
+					<X>-530</X><Y>80</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -193,7 +198,7 @@ if (groupByProduct) {
 				<Variable Class="PlainVariable">
 					<Id>1783000000041</Id>
 					<Name><![CDATA[batchesShipped]]></Name>
-					<X>-460</X><Y>200</Y>
+					<X>-530</X><Y>100</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -208,7 +213,7 @@ if (groupByProduct) {
 				<Variable Class="PlainVariable">
 					<Id>1783000000042</Id>
 					<Name><![CDATA[batchesScrapped]]></Name>
-					<X>-460</X><Y>230</Y>
+					<X>-530</X><Y>120</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -223,7 +228,7 @@ if (groupByProduct) {
 				<Variable Class="PlainVariable">
 					<Id>1783000000043</Id>
 					<Name><![CDATA[totalFlowTime]]></Name>
-					<X>-460</X><Y>260</Y>
+					<X>-530</X><Y>140</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -238,7 +243,7 @@ if (groupByProduct) {
 				<Variable Class="PlainVariable">
 					<Id>1783000000044</Id>
 					<Name><![CDATA[maxFlowTime]]></Name>
-					<X>-460</X><Y>290</Y>
+					<X>-530</X><Y>160</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -253,7 +258,7 @@ if (groupByProduct) {
 				<Variable Class="PlainVariable">
 					<Id>1783000000045</Id>
 					<Name><![CDATA[totalTabletsShipped]]></Name>
-					<X>-460</X><Y>320</Y>
+					<X>-530</X><Y>180</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -268,7 +273,7 @@ if (groupByProduct) {
 				<Variable Class="PlainVariable">
 					<Id>1783000000046</Id>
 					<Name><![CDATA[totalBottlesShipped]]></Name>
-					<X>-460</X><Y>350</Y>
+					<X>-530</X><Y>200</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -283,7 +288,7 @@ if (groupByProduct) {
 				<Variable Class="PlainVariable">
 					<Id>1783000000900</Id>
 					<Name><![CDATA[totalFailures]]></Name>
-					<X>-460</X><Y>380</Y>
+					<X>-530</X><Y>220</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -298,7 +303,7 @@ if (groupByProduct) {
 				<Variable Class="PlainVariable">
 					<Id>1783000000186</Id>
 					<Name><![CDATA[lastProductOnPackLine]]></Name>
-					<X>-460</X><Y>410</Y>
+					<X>-530</X><Y>240</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -313,7 +318,7 @@ if (groupByProduct) {
 				<Variable Class="PlainVariable">
 					<Id>1783000000187</Id>
 					<Name><![CDATA[packLineBusy]]></Name>
-					<X>-460</X><Y>440</Y>
+					<X>-530</X><Y>260</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -322,6 +327,411 @@ if (groupByProduct) {
 						<Type><![CDATA[boolean[]]]></Type>        
 						<InitialValue Class="CodeValue">
 							<Code><![CDATA[new boolean[] { false, false, false }]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1783000000902</Id>
+					<Name><![CDATA[originalProductPlan]]></Name>
+					<X>-360</X><Y>20</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[String[]]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[new String[0]]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1783000000903</Id>
+					<Name><![CDATA[baselineResultsPrinted]]></Name>
+					<X>-360</X><Y>40</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[boolean]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[false]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1783000000904</Id>
+					<Name><![CDATA[targetBatchCount]]></Name>
+					<X>-360</X><Y>60</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[int]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[50]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1783000000905</Id>
+					<Name><![CDATA[qStageNames]]></Name>
+					<X>-360</X><Y>80</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[String[]]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[new String[] { "Premix/blending", "Granulation", "Drying unit", "Drying cleaning team", "Compression", "Coating unit", "Coating cleaning team", "Packaging line", "Packaging setup/changeover cleaning team" }]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1783000000906</Id>
+					<Name><![CDATA[qSum]]></Name>
+					<X>-360</X><Y>100</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[double[]]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[new double[9]]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1783000000907</Id>
+					<Name><![CDATA[qMax]]></Name>
+					<X>-360</X><Y>120</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[double[]]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[new double[9]]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1783000000908</Id>
+					<Name><![CDATA[qCount]]></Name>
+					<X>-360</X><Y>140</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[int[]]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[new int[9]]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1783000000909</Id>
+					<Name><![CDATA[currentWIP]]></Name>
+					<X>-360</X><Y>160</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[int]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[0]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1783000000910</Id>
+					<Name><![CDATA[maxWIP]]></Name>
+					<X>-360</X><Y>180</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[int]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[0]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1783000000911</Id>
+					<Name><![CDATA[premixFailureScrapCount]]></Name>
+					<X>-360</X><Y>200</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[int]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[0]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1783000000912</Id>
+					<Name><![CDATA[totalPremixYieldLossTablets]]></Name>
+					<X>-360</X><Y>220</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[double]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[0]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1783000000913</Id>
+					<Name><![CDATA[totalPackagingYieldLossTablets]]></Name>
+					<X>-360</X><Y>240</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[double]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[0]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1783000000914</Id>
+					<Name><![CDATA[totalLeftoverTabletsScrapped]]></Name>
+					<X>-360</X><Y>260</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[double]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[0]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1783000000915</Id>
+					<Name><![CDATA[packageSetupCount]]></Name>
+					<X>-360</X><Y>280</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[int]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[0]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1783000000916</Id>
+					<Name><![CDATA[packageChangeoverCount]]></Name>
+					<X>-360</X><Y>300</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[int]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[0]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1783000000917</Id>
+					<Name><![CDATA[totalSetupHours]]></Name>
+					<X>-360</X><Y>320</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[double]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[0]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1783000000918</Id>
+					<Name><![CDATA[totalChangeoverHours]]></Name>
+					<X>-360</X><Y>340</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[double]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[0]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1783000000919</Id>
+					<Name><![CDATA[releasePlanViolationCount]]></Name>
+					<X>-360</X><Y>360</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[int]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[0]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1783000000920</Id>
+					<Name><![CDATA[totalReleaseDeviationHours]]></Name>
+					<X>-360</X><Y>380</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[double]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[0]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1783000000921</Id>
+					<Name><![CDATA[maxReleaseDeviationHours]]></Name>
+					<X>-360</X><Y>400</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[double]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[0]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1783000000922</Id>
+					<Name><![CDATA[weeklyTabletsShipped]]></Name>
+					<X>-360</X><Y>420</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[double[]]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[new double[52]]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1783000000923</Id>
+					<Name><![CDATA[weeklyBottlesShipped]]></Name>
+					<X>-360</X><Y>440</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[double[]]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[new double[52]]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1783000000924</Id>
+					<Name><![CDATA[weeklyBatchesShipped]]></Name>
+					<X>-360</X><Y>460</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[int[]]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[new int[52]]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1783000000925</Id>
+					<Name><![CDATA[weeklyBatchesScrapped]]></Name>
+					<X>-360</X><Y>480</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[int[]]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[new int[52]]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1783000000926</Id>
+					<Name><![CDATA[failureCountBlenderNew]]></Name>
+					<X>-360</X><Y>500</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[int]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[0]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1783000000927</Id>
+					<Name><![CDATA[failureCountBlenderOld]]></Name>
+					<X>-360</X><Y>520</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[int]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[0]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1783000000928</Id>
+					<Name><![CDATA[failureCountPackaging]]></Name>
+					<X>-360</X><Y>540</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[int]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[0]]></Code>
 						</InitialValue>
 					</Properties>
 				</Variable>
@@ -1833,25 +2243,25 @@ if (groupByProduct) {
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1783000000047</Id>
 					<Name><![CDATA[arrivalDelay]]></Name>
-					<X>-180</X><Y>80</Y>
+					<X>-170</X><Y>60</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
 					<Body><![CDATA[// Source uses interarrival times; this converts the absolute plan to gaps.
+double dm = Math.max(1.0e-9, demandMultiplier);
 int i = Math.max(0, sourceIndex - 1);
 if (i < arrivalTimes.length - 1) {
-    return Math.max(0.0, (arrivalTimes[i + 1] - arrivalTimes[i]) / demandMultiplier);
+    return Math.max(0.0, (arrivalTimes[i + 1] - arrivalTimes[i]) / dm);
 }
-return 1.0e9; // no more arrivals after maxArrivals
-]]></Body>
+return 1.0e9; // no more arrivals after targetBatchCount]]></Body>
 				</Function>
 				<Function AccessType="default" StaticFunction="false">
 					<ReturnModificator>RETURNS_VALUE</ReturnModificator>
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1783000000048</Id>
 					<Name><![CDATA[premixFailureRate]]></Name>
-					<X>-180</X><Y>140</Y>
+					<X>-170</X><Y>80</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1883,7 +2293,7 @@ return Math.max(0.0, Math.min(0.95, p));
 					<ReturnType><![CDATA[int]]></ReturnType>
 					<Id>1783000000049</Id>
 					<Name><![CDATA[bottleSize]]></Name>
-					<X>-180</X><Y>200</Y>
+					<X>-170</X><Y>100</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1900,7 +2310,7 @@ return Math.max(0.0, Math.min(0.95, p));
 					<ReturnType><![CDATA[boolean]]></ReturnType>
 					<Id>1783000000050</Id>
 					<Name><![CDATA[isPackagingChangeover]]></Name>
-					<X>-180</X><Y>260</Y>
+					<X>-170</X><Y>120</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1921,7 +2331,7 @@ return lastProductOnLine.length() > 0 && !a.product.equals(lastProductOnLine);
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1783000000051</Id>
 					<Name><![CDATA[packagingSetupTime]]></Name>
-					<X>-180</X><Y>320</Y>
+					<X>-170</X><Y>140</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1930,15 +2340,15 @@ return lastProductOnLine.length() > 0 && !a.product.equals(lastProductOnLine);
 						<Name><![CDATA[a]]></Name>
 						<Type><![CDATA[BatchAgent]]></Type>
 					</Parameter>
-					<Body><![CDATA[return 0.5 + (isPackagingChangeover(a) ? 0.5 : 0.0);
-]]></Body>
+					<Body><![CDATA[if (a.setupTimeUsed > 0) return a.setupTimeUsed;
+return 0.5 + (isPackagingChangeover(a) ? 0.5 : 0.0);]]></Body>
 				</Function>
 				<Function AccessType="default" StaticFunction="false">
 					<ReturnModificator>RETURNS_VALUE</ReturnModificator>
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1783000000052</Id>
 					<Name><![CDATA[meanFlowTime]]></Name>
-					<X>-180</X><Y>380</Y>
+					<X>-170</X><Y>160</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1951,7 +2361,7 @@ return lastProductOnLine.length() > 0 && !a.product.equals(lastProductOnLine);
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1783000000053</Id>
 					<Name><![CDATA[scrapRate]]></Name>
-					<X>-180</X><Y>440</Y>
+					<X>-170</X><Y>180</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1965,7 +2375,7 @@ return total > 0 ? ((double)batchesScrapped) / total : 0;
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1783000000901</Id>
 					<Name><![CDATA[printBaselineResults]]></Name>
-					<X>-180</X><Y>440</Y>
+					<X>-170</X><Y>200</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1975,13 +2385,42 @@ traceln("=== BASELINE RESULTS ===");
 traceln("Sim time at completion (h): " + String.format("%.2f", time()));
 traceln("Batches shipped:  " + batchesShipped);
 traceln("Batches scrapped: " + batchesScrapped);
-traceln("Total completed:  " + (batchesShipped + batchesScrapped) + "  (expect 50)");
+traceln("Total completed:  " + (batchesShipped + batchesScrapped) + "  (expect " + targetBatchCount + ")");
 traceln("Scrap rate:       " + String.format("%.3f", scrapRate()));
-traceln("Mean flow time (h): " + String.format("%.2f", meanFlowTime()));
-traceln("Max flow time (h):  " + String.format("%.2f", maxFlowTime));
+traceln("Mean flow time, shipped only (h): " + String.format("%.2f", meanFlowTime()));
+traceln("Max flow time, shipped only (h):  " + String.format("%.2f", maxFlowTime));
+traceln("Max WIP observed: " + maxWIP);
 traceln("Total tablets shipped: " + (long) totalTabletsShipped);
 traceln("Total bottles shipped: " + (long) totalBottlesShipped);
-traceln("Machine failures (total): " + totalFailures);
+traceln("--- Scrap/loss breakdown ---");
+traceln("  Full-batch premix failure scraps: " + premixFailureScrapCount);
+traceln("  Premix yield loss tablets:        " + (long) totalPremixYieldLossTablets);
+traceln("  Packaging/inspection yield loss:  " + (long) totalPackagingYieldLossTablets);
+traceln("  Bottle-fill leftover tablets:     " + (long) totalLeftoverTabletsScrapped);
+traceln("--- Packaging setup/changeover ---");
+traceln("  Setups:      " + packageSetupCount + "  hours=" + String.format("%.2f", totalSetupHours));
+traceln("  Changeovers: " + packageChangeoverCount + "  hours=" + String.format("%.2f", totalChangeoverHours));
+traceln("--- Release plan check ---");
+traceln("  Releases >24h from planned start: " + releasePlanViolationCount);
+traceln("  Max release deviation (h):        " + String.format("%.2f", maxReleaseDeviationHours));
+traceln("--- Queue waits by stage (h) ---");
+for (int i = 0; i < qStageNames.length && i < qSum.length; i++) {
+    double meanQ = qCount[i] > 0 ? qSum[i] / qCount[i] : 0;
+    traceln("  " + qStageNames[i] + ": mean=" + String.format("%.2f", meanQ)
+        + " max=" + String.format("%.2f", qMax[i]) + " n=" + qCount[i]);
+}
+traceln("--- Weekly shipments/scrap (weeks with activity) ---");
+for (int w = 0; w < weeklyBatchesShipped.length; w++) {
+    if (weeklyBatchesShipped[w] > 0 || weeklyBatchesScrapped[w] > 0) {
+        traceln("  Week " + w + ": shipped batches=" + weeklyBatchesShipped[w]
+            + " scrapped batches=" + weeklyBatchesScrapped[w]
+            + " bottles=" + (long) weeklyBottlesShipped[w]
+            + " tablets=" + (long) weeklyTabletsShipped[w]);
+    }
+}
+traceln("--- Machine failures ---");
+traceln("  total: " + totalFailures + " | blenderNew=" + failureCountBlenderNew
+    + " blenderOld=" + failureCountBlenderOld + " packagingLine=" + failureCountPackaging);
 traceln("--- Utilisation (mean 0..1) ---");
 traceln("  blenderNew    : " + String.format("%.3f", blenderNew.utilization()));
 traceln("  blenderOld    : " + String.format("%.3f", blenderOld.utilization()));
@@ -1992,15 +2431,14 @@ traceln("  coater        : " + String.format("%.3f", coater.utilization()));
 traceln("  packagingLine : " + String.format("%.3f", packagingLine.utilization()));
 traceln("  cleaningTeam  : " + String.format("%.3f", cleaningTeam.utilization()));
 traceln("=== END BASELINE RESULTS ===");
-return 0;
-]]></Body>
+return 0;]]></Body>
 				</Function>
 				<Function AccessType="default" StaticFunction="false">
 					<ReturnModificator>RETURNS_VALUE</ReturnModificator>
 					<ReturnType><![CDATA[boolean]]></ReturnType>
 					<Id>1783000000188</Id>
 					<Name><![CDATA[needsCoating]]></Name>
-					<X>-300</X><Y>80</Y>
+					<X>-170</X><Y>20</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2017,7 +2455,7 @@ return 0;
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1783000000189</Id>
 					<Name><![CDATA[dryingTime]]></Name>
-					<X>-300</X><Y>140</Y>
+					<X>-170</X><Y>40</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2033,7 +2471,7 @@ return triangular(2.703493, 5.541093, 3.748756);
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1783000000190</Id>
 					<Name><![CDATA[premixDurationNew]]></Name>
-					<X>-180</X><Y>500</Y>
+					<X>-170</X><Y>220</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2053,7 +2491,7 @@ return d;
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1783000000191</Id>
 					<Name><![CDATA[premixDurationOld]]></Name>
-					<X>-180</X><Y>560</Y>
+					<X>-170</X><Y>260</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2073,7 +2511,7 @@ return d;
 					<ReturnType><![CDATA[int]]></ReturnType>
 					<Id>1783000000192</Id>
 					<Name><![CDATA[choosePackagingLine]]></Name>
-					<X>-180</X><Y>620</Y>
+					<X>-170</X><Y>300</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2082,8 +2520,8 @@ return d;
 						<Name><![CDATA[product]]></Name>
 						<Type><![CDATA[String]]></Type>
 					</Parameter>
-					<Body><![CDATA[int n = Math.min(numPackagingLines, lastProductOnPackLine.length);
-if (n <= 0) return 0;
+					<Body><![CDATA[ensurePackagingArrays();
+int n = Math.max(1, Math.min(numPackagingLines, lastProductOnPackLine.length));
 
 // Prefer an idle line that already handled this product, to avoid a changeover.
 for (int i = 0; i < n; i++) {
@@ -2099,16 +2537,15 @@ for (int i = 0; i < n; i++) {
     }
 }
 
-// Defensive fallback. This should rarely be used because the Seize block exits only after a packaging resource is available.
-return 0;
-]]></Body>
+// Defensive fallback. The Seize block should exit only after a packaging resource is available.
+return 0;]]></Body>
 				</Function>
 				<Function AccessType="default" StaticFunction="false">
-					<ReturnModificator>VOID</ReturnModificator>
-					<ReturnType><![CDATA[double]]></ReturnType>
+					<ReturnModificator>RETURNS_VALUE</ReturnModificator>
+					<ReturnType><![CDATA[int]]></ReturnType>
 					<Id>1783000000193</Id>
 					<Name><![CDATA[assignPackagingLine]]></Name>
-					<X>-180</X><Y>680</Y>
+					<X>-170</X><Y>360</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2117,18 +2554,19 @@ return 0;
 						<Name><![CDATA[a]]></Name>
 						<Type><![CDATA[BatchAgent]]></Type>
 					</Parameter>
-					<Body><![CDATA[int i = choosePackagingLine(a.product);
+					<Body><![CDATA[ensurePackagingArrays();
+int i = choosePackagingLine(a.product);
 a.packLineIndex = i;
 a.productChanged = lastProductOnPackLine[i].length() > 0 && !a.product.equals(lastProductOnPackLine[i]);
 packLineBusy[i] = true;
-]]></Body>
+return 0;]]></Body>
 				</Function>
 				<Function AccessType="default" StaticFunction="false">
-					<ReturnModificator>VOID</ReturnModificator>
-					<ReturnType><![CDATA[double]]></ReturnType>
+					<ReturnModificator>RETURNS_VALUE</ReturnModificator>
+					<ReturnType><![CDATA[int]]></ReturnType>
 					<Id>1783000000194</Id>
 					<Name><![CDATA[releasePackagingLine]]></Name>
-					<X>-180</X><Y>740</Y>
+					<X>-170</X><Y>400</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2137,14 +2575,124 @@ packLineBusy[i] = true;
 						<Name><![CDATA[a]]></Name>
 						<Type><![CDATA[BatchAgent]]></Type>
 					</Parameter>
-					<Body><![CDATA[int i = a.packLineIndex;
+					<Body><![CDATA[ensurePackagingArrays();
+int i = a.packLineIndex;
 if (i >= 0 && i < lastProductOnPackLine.length) {
     lastProductOnPackLine[i] = a.product;
     packLineBusy[i] = false;
 }
 lastProductOnLine = a.product; // kept as a fallback/readout from the older single-line logic
 a.packLineIndex = -1;
-]]></Body>
+return 0;]]></Body>
+				</Function>
+				<Function AccessType="default" StaticFunction="false">
+					<ReturnModificator>RETURNS_VALUE</ReturnModificator>
+					<ReturnType><![CDATA[double]]></ReturnType>
+					<Id>1783000000947</Id>
+					<Name><![CDATA[ensurePackagingArrays]]></Name>
+					<X>-170</X><Y>240</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Body><![CDATA[int n = Math.max(1, numPackagingLines);
+if (lastProductOnPackLine == null || lastProductOnPackLine.length != n || packLineBusy == null || packLineBusy.length != n) {
+    String[] newLast = new String[n];
+    boolean[] newBusy = new boolean[n];
+    for (int i = 0; i < n; i++) {
+        newLast[i] = (lastProductOnPackLine != null && i < lastProductOnPackLine.length && lastProductOnPackLine[i] != null) ? lastProductOnPackLine[i] : "";
+        newBusy[i] = (packLineBusy != null && i < packLineBusy.length) ? packLineBusy[i] : false;
+    }
+    lastProductOnPackLine = newLast;
+    packLineBusy = newBusy;
+}
+return 0;]]></Body>
+				</Function>
+				<Function AccessType="default" StaticFunction="false">
+					<ReturnModificator>RETURNS_VALUE</ReturnModificator>
+					<ReturnType><![CDATA[double]]></ReturnType>
+					<Id>1783000000948</Id>
+					<Name><![CDATA[recordQueueWait]]></Name>
+					<X>-170</X><Y>380</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Parameter>
+						<Name><![CDATA[stage]]></Name>
+						<Type><![CDATA[int]]></Type>
+					</Parameter>
+					<Parameter>
+						<Name><![CDATA[wait]]></Name>
+						<Type><![CDATA[double]]></Type>
+					</Parameter>
+					<Body><![CDATA[if (stage >= 0 && stage < qSum.length) {
+    double w = Math.max(0.0, wait);
+    qSum[stage] += w;
+    qCount[stage]++;
+    qMax[stage] = Math.max(qMax[stage], w);
+}
+return 0;]]></Body>
+				</Function>
+				<Function AccessType="default" StaticFunction="false">
+					<ReturnModificator>RETURNS_VALUE</ReturnModificator>
+					<ReturnType><![CDATA[double]]></ReturnType>
+					<Id>1783000000949</Id>
+					<Name><![CDATA[recordWeeklyShipment]]></Name>
+					<X>-170</X><Y>280</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Parameter>
+						<Name><![CDATA[a]]></Name>
+						<Type><![CDATA[BatchAgent]]></Type>
+					</Parameter>
+					<Body><![CDATA[int week = (int) Math.floor(time() / 168.0);
+if (week >= 0 && week < weeklyTabletsShipped.length) {
+    weeklyTabletsShipped[week] += a.tablets;
+    weeklyBottlesShipped[week] += a.bottlesShipped;
+    weeklyBatchesShipped[week]++;
+    a.completionWeek = week;
+}
+return 0;]]></Body>
+				</Function>
+				<Function AccessType="default" StaticFunction="false">
+					<ReturnModificator>RETURNS_VALUE</ReturnModificator>
+					<ReturnType><![CDATA[double]]></ReturnType>
+					<Id>1783000000950</Id>
+					<Name><![CDATA[recordWeeklyScrap]]></Name>
+					<X>-170</X><Y>320</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Parameter>
+						<Name><![CDATA[a]]></Name>
+						<Type><![CDATA[BatchAgent]]></Type>
+					</Parameter>
+					<Body><![CDATA[int week = (int) Math.floor(time() / 168.0);
+if (week >= 0 && week < weeklyBatchesScrapped.length) {
+    weeklyBatchesScrapped[week]++;
+}
+return 0;]]></Body>
+				</Function>
+				<Function AccessType="default" StaticFunction="false">
+					<ReturnModificator>RETURNS_VALUE</ReturnModificator>
+					<ReturnType><![CDATA[double]]></ReturnType>
+					<Id>1783000000951</Id>
+					<Name><![CDATA[tryFinishBaseline]]></Name>
+					<X>-170</X><Y>340</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Body><![CDATA[if (!baselineResultsPrinted && batchesShipped + batchesScrapped >= targetBatchCount) {
+    baselineResultsPrinted = true;
+    printBaselineResults();
+    finishSimulation();
+}
+return 0;]]></Body>
 				</Function>
 			</Functions>
 			<AgentLinks>
@@ -2246,7 +2794,7 @@ a.packLineIndex = -1;
 						<Parameter>
 							<Name><![CDATA[maxArrivals]]></Name>
 							<Value Class="CodeValue">
-								<Code><![CDATA[50]]></Code>
+								<Code><![CDATA[targetBatchCount]]></Code>
 							</Value>
 						</Parameter>
 						<Parameter>
@@ -2388,10 +2936,23 @@ a.packLineIndex = -1;
 							<Name><![CDATA[onExit]]></Name>
 							<Value Class="CodeValue">
 								<Code><![CDATA[int i = Math.min(sourceIndex, productPlan.length - 1);
+double dm = Math.max(1.0e-9, demandMultiplier);
 agent.product = productPlan[i];
+agent.plannedProduct = (originalProductPlan != null && i < originalProductPlan.length) ? originalProductPlan[i] : productPlan[i];
+agent.plannedReleaseTime = arrivalTimes[i] / dm;
 agent.batchKg = 150;
 agent.tablets = 300000;
 agent.arrivalTime = time();
+agent.scrapCause = "";
+agent.packLineIndex = -1;
+
+double releaseDeviation = Math.abs(time() - agent.plannedReleaseTime);
+totalReleaseDeviationHours += releaseDeviation;
+maxReleaseDeviationHours = Math.max(maxReleaseDeviationHours, releaseDeviation);
+if (releaseDeviation > 24.0) releasePlanViolationCount++;
+
+currentWIP++;
+maxWIP = Math.max(maxWIP, currentWIP);
 sourceIndex++;
 ]]></Code>
 							</Value>
@@ -2686,7 +3247,8 @@ sourceIndex++;
 							<Name><![CDATA[onFailure]]></Name>
 							<Value Class="CodeValue">
 								<Code><![CDATA[traceln("FAILURE | t=" + String.format("%.2f", time()) + " | resource=blenderNew | repair=lognormal(0.803,2.086)h");
-totalFailures++;]]></Code>
+totalFailures++;
+failureCountBlenderNew++;]]></Code>
 							</Value>
 						</Parameter>
 						<Parameter>
@@ -2970,7 +3532,8 @@ totalFailures++;]]></Code>
 							<Name><![CDATA[onFailure]]></Name>
 							<Value Class="CodeValue">
 								<Code><![CDATA[traceln("FAILURE | t=" + String.format("%.2f", time()) + " | resource=blenderOld | repair=lognormal(0.803,2.086)h");
-totalFailures++;]]></Code>
+totalFailures++;
+failureCountBlenderOld++;]]></Code>
 							</Value>
 						</Parameter>
 						<Parameter>
@@ -4318,7 +4881,8 @@ totalFailures++;]]></Code>
 							<Name><![CDATA[onFailure]]></Name>
 							<Value Class="CodeValue">
 								<Code><![CDATA[traceln("FAILURE | t=" + String.format("%.2f", time()) + " | resource=packagingLine | repair=lognormal(5.009,7.671)h");
-totalFailures++;]]></Code>
+totalFailures++;
+failureCountPackaging++;]]></Code>
 							</Value>
 						</Parameter>
 						<Parameter>
@@ -4685,7 +5249,7 @@ totalFailures++;]]></Code>
 						<Parameter>
 							<Name><![CDATA[condition]]></Name>
 							<Value Class="CodeValue">
-								<Code><![CDATA[blenderNew.idle() > 0]]></Code>
+								<Code><![CDATA[blenderNew.idle() > 0 || (blenderOld.idle() <= 0 && uniform(0, 1) < 0.5)]]></Code>
 							</Value>
 						</Parameter>
 						<Parameter>
@@ -4795,7 +5359,7 @@ totalFailures++;]]></Code>
 						<Parameter>
 							<Name><![CDATA[capacity]]></Name>
 							<Value Class="CodeValue">
-								<Code><![CDATA[1]]></Code>
+								<Code><![CDATA[targetBatchCount]]></Code>
 							</Value>
 						</Parameter>
 						<Parameter>
@@ -4887,6 +5451,9 @@ totalFailures++;]]></Code>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onEnter]]></Name>
+							<Value Class="CodeValue">
+								<Code><![CDATA[agent.qEntryPremix = time();]]></Code>
+							</Value>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onExitTimeout]]></Name>
@@ -4902,6 +5469,9 @@ totalFailures++;]]></Code>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onExit]]></Name>
+							<Value Class="CodeValue">
+								<Code><![CDATA[recordQueueWait(0, time() - agent.qEntryPremix);]]></Code>
+							</Value>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onRemove]]></Name>
@@ -5032,8 +5602,10 @@ totalFailures++;]]></Code>
 						<Parameter>
 							<Name><![CDATA[onExit]]></Name>
 							<Value Class="CodeValue">
-								<Code><![CDATA[agent.premixYield = triangular(0.985, 0.990, 0.995);
-agent.tablets = 300000 * agent.premixYield;]]></Code>
+								<Code><![CDATA[agent.tabletsBeforePremixYield = 300000;
+agent.premixYield = triangular(0.985, 0.995, 0.990);
+agent.tablets = agent.tabletsBeforePremixYield * agent.premixYield;
+totalPremixYieldLossTablets += Math.max(0.0, agent.tabletsBeforePremixYield - agent.tablets);]]></Code>
 							</Value>
 						</Parameter>
 						<Parameter>
@@ -5234,7 +5806,7 @@ agent.tablets = 300000 * agent.premixYield;]]></Code>
 						<Parameter>
 							<Name><![CDATA[capacity]]></Name>
 							<Value Class="CodeValue">
-								<Code><![CDATA[1]]></Code>
+								<Code><![CDATA[targetBatchCount]]></Code>
 							</Value>
 						</Parameter>
 						<Parameter>
@@ -5326,6 +5898,9 @@ agent.tablets = 300000 * agent.premixYield;]]></Code>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onEnter]]></Name>
+							<Value Class="CodeValue">
+								<Code><![CDATA[agent.qEntryPremix = time();]]></Code>
+							</Value>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onExitTimeout]]></Name>
@@ -5341,6 +5916,9 @@ agent.tablets = 300000 * agent.premixYield;]]></Code>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onExit]]></Name>
+							<Value Class="CodeValue">
+								<Code><![CDATA[recordQueueWait(0, time() - agent.qEntryPremix);]]></Code>
+							</Value>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onRemove]]></Name>
@@ -5471,8 +6049,10 @@ agent.tablets = 300000 * agent.premixYield;]]></Code>
 						<Parameter>
 							<Name><![CDATA[onExit]]></Name>
 							<Value Class="CodeValue">
-								<Code><![CDATA[agent.premixYield = triangular(0.985, 0.990, 0.995);
-agent.tablets = 300000 * agent.premixYield;]]></Code>
+								<Code><![CDATA[agent.tabletsBeforePremixYield = 300000;
+agent.premixYield = triangular(0.985, 0.995, 0.990);
+agent.tablets = agent.tabletsBeforePremixYield * agent.premixYield;
+totalPremixYieldLossTablets += Math.max(0.0, agent.tabletsBeforePremixYield - agent.tablets);]]></Code>
 							</Value>
 						</Parameter>
 						<Parameter>
@@ -5669,9 +6249,16 @@ agent.tablets = 300000 * agent.premixYield;]]></Code>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onExitTrue]]></Name>
+							<Value Class="CodeValue">
+								<Code><![CDATA[agent.scrapCause = "Premix/blending failure during processing (hazard approximation)";
+premixFailureScrapCount++;]]></Code>
+							</Value>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onExitFalse]]></Name>
+							<Value Class="CodeValue">
+								<Code><![CDATA[agent.scrapCause = "";]]></Code>
+							</Value>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[choiceIsVolatile]]></Name>
@@ -5742,9 +6329,13 @@ agent.tablets = 300000 * agent.premixYield;]]></Code>
 							<Name><![CDATA[onEnter]]></Name>
 							<Value Class="CodeValue">
 								<Code><![CDATA[agent.scrapped = true;
+if (agent.scrapCause == null || agent.scrapCause.length() == 0) agent.scrapCause = "Unspecified scrap";
 batchesScrapped++;
-traceln("SCRAPPED | t=" + String.format("%.2f", time()) + " | product=" + agent.product + " | total_scrapped=" + batchesScrapped);
-if (batchesShipped + batchesScrapped == 50) printBaselineResults();]]></Code>
+recordWeeklyScrap(agent);
+currentWIP = Math.max(0, currentWIP - 1);
+traceln("SCRAPPED | t=" + String.format("%.2f", time()) + " | product=" + agent.product
+    + " | cause=" + agent.scrapCause + " | total_scrapped=" + batchesScrapped);
+tryFinishBaseline();]]></Code>
 							</Value>
 						</Parameter>
 						<Parameter>
@@ -5839,7 +6430,7 @@ if (batchesShipped + batchesScrapped == 50) printBaselineResults();]]></Code>
 						<Parameter>
 							<Name><![CDATA[capacity]]></Name>
 							<Value Class="CodeValue">
-								<Code><![CDATA[1]]></Code>
+								<Code><![CDATA[targetBatchCount]]></Code>
 							</Value>
 						</Parameter>
 						<Parameter>
@@ -5931,6 +6522,9 @@ if (batchesShipped + batchesScrapped == 50) printBaselineResults();]]></Code>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onEnter]]></Name>
+							<Value Class="CodeValue">
+								<Code><![CDATA[agent.qEntryGran = time();]]></Code>
+							</Value>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onExitTimeout]]></Name>
@@ -5946,6 +6540,9 @@ if (batchesShipped + batchesScrapped == 50) printBaselineResults();]]></Code>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onExit]]></Name>
+							<Value Class="CodeValue">
+								<Code><![CDATA[recordQueueWait(1, time() - agent.qEntryGran);]]></Code>
+							</Value>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onRemove]]></Name>
@@ -6271,7 +6868,7 @@ if (batchesShipped + batchesScrapped == 50) printBaselineResults();]]></Code>
 						<Parameter>
 							<Name><![CDATA[capacity]]></Name>
 							<Value Class="CodeValue">
-								<Code><![CDATA[1]]></Code>
+								<Code><![CDATA[targetBatchCount]]></Code>
 							</Value>
 						</Parameter>
 						<Parameter>
@@ -6363,6 +6960,9 @@ if (batchesShipped + batchesScrapped == 50) printBaselineResults();]]></Code>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onEnter]]></Name>
+							<Value Class="CodeValue">
+								<Code><![CDATA[agent.qEntryDryer = time();]]></Code>
+							</Value>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onExitTimeout]]></Name>
@@ -6378,6 +6978,9 @@ if (batchesShipped + batchesScrapped == 50) printBaselineResults();]]></Code>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onExit]]></Name>
+							<Value Class="CodeValue">
+								<Code><![CDATA[recordQueueWait(2, time() - agent.qEntryDryer);]]></Code>
+							</Value>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onRemove]]></Name>
@@ -6590,7 +7193,7 @@ if (batchesShipped + batchesScrapped == 50) printBaselineResults();]]></Code>
 						<Parameter>
 							<Name><![CDATA[capacity]]></Name>
 							<Value Class="CodeValue">
-								<Code><![CDATA[1]]></Code>
+								<Code><![CDATA[targetBatchCount]]></Code>
 							</Value>
 						</Parameter>
 						<Parameter>
@@ -6682,6 +7285,9 @@ if (batchesShipped + batchesScrapped == 50) printBaselineResults();]]></Code>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onEnter]]></Name>
+							<Value Class="CodeValue">
+								<Code><![CDATA[agent.qEntryDryClean = time();]]></Code>
+							</Value>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onExitTimeout]]></Name>
@@ -6697,6 +7303,9 @@ if (batchesShipped + batchesScrapped == 50) printBaselineResults();]]></Code>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onExit]]></Name>
+							<Value Class="CodeValue">
+								<Code><![CDATA[recordQueueWait(3, time() - agent.qEntryDryClean);]]></Code>
+							</Value>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onRemove]]></Name>
@@ -7135,7 +7744,7 @@ if (batchesShipped + batchesScrapped == 50) printBaselineResults();]]></Code>
 						<Parameter>
 							<Name><![CDATA[capacity]]></Name>
 							<Value Class="CodeValue">
-								<Code><![CDATA[1]]></Code>
+								<Code><![CDATA[targetBatchCount]]></Code>
 							</Value>
 						</Parameter>
 						<Parameter>
@@ -7227,6 +7836,9 @@ if (batchesShipped + batchesScrapped == 50) printBaselineResults();]]></Code>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onEnter]]></Name>
+							<Value Class="CodeValue">
+								<Code><![CDATA[agent.qEntryPress = time();]]></Code>
+							</Value>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onExitTimeout]]></Name>
@@ -7242,6 +7854,9 @@ if (batchesShipped + batchesScrapped == 50) printBaselineResults();]]></Code>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onExit]]></Name>
+							<Value Class="CodeValue">
+								<Code><![CDATA[recordQueueWait(4, time() - agent.qEntryPress);]]></Code>
+							</Value>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onRemove]]></Name>
@@ -7659,7 +8274,7 @@ if (batchesShipped + batchesScrapped == 50) printBaselineResults();]]></Code>
 						<Parameter>
 							<Name><![CDATA[capacity]]></Name>
 							<Value Class="CodeValue">
-								<Code><![CDATA[1]]></Code>
+								<Code><![CDATA[targetBatchCount]]></Code>
 							</Value>
 						</Parameter>
 						<Parameter>
@@ -7751,6 +8366,9 @@ if (batchesShipped + batchesScrapped == 50) printBaselineResults();]]></Code>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onEnter]]></Name>
+							<Value Class="CodeValue">
+								<Code><![CDATA[agent.qEntryCoater = time();]]></Code>
+							</Value>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onExitTimeout]]></Name>
@@ -7766,6 +8384,9 @@ if (batchesShipped + batchesScrapped == 50) printBaselineResults();]]></Code>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onExit]]></Name>
+							<Value Class="CodeValue">
+								<Code><![CDATA[recordQueueWait(5, time() - agent.qEntryCoater);]]></Code>
+							</Value>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onRemove]]></Name>
@@ -7978,7 +8599,7 @@ if (batchesShipped + batchesScrapped == 50) printBaselineResults();]]></Code>
 						<Parameter>
 							<Name><![CDATA[capacity]]></Name>
 							<Value Class="CodeValue">
-								<Code><![CDATA[1]]></Code>
+								<Code><![CDATA[targetBatchCount]]></Code>
 							</Value>
 						</Parameter>
 						<Parameter>
@@ -8070,6 +8691,9 @@ if (batchesShipped + batchesScrapped == 50) printBaselineResults();]]></Code>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onEnter]]></Name>
+							<Value Class="CodeValue">
+								<Code><![CDATA[agent.qEntryCoatClean = time();]]></Code>
+							</Value>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onExitTimeout]]></Name>
@@ -8085,6 +8709,9 @@ if (batchesShipped + batchesScrapped == 50) printBaselineResults();]]></Code>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onExit]]></Name>
+							<Value Class="CodeValue">
+								<Code><![CDATA[recordQueueWait(6, time() - agent.qEntryCoatClean);]]></Code>
+							</Value>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onRemove]]></Name>
@@ -8523,7 +9150,7 @@ if (batchesShipped + batchesScrapped == 50) printBaselineResults();]]></Code>
 						<Parameter>
 							<Name><![CDATA[capacity]]></Name>
 							<Value Class="CodeValue">
-								<Code><![CDATA[1]]></Code>
+								<Code><![CDATA[targetBatchCount]]></Code>
 							</Value>
 						</Parameter>
 						<Parameter>
@@ -8615,6 +9242,9 @@ if (batchesShipped + batchesScrapped == 50) printBaselineResults();]]></Code>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onEnter]]></Name>
+							<Value Class="CodeValue">
+								<Code><![CDATA[agent.qEntryPackLine = time();]]></Code>
+							</Value>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onExitTimeout]]></Name>
@@ -8631,7 +9261,8 @@ if (batchesShipped + batchesScrapped == 50) printBaselineResults();]]></Code>
 						<Parameter>
 							<Name><![CDATA[onExit]]></Name>
 							<Value Class="CodeValue">
-								<Code><![CDATA[assignPackagingLine(agent);]]></Code>
+								<Code><![CDATA[recordQueueWait(7, time() - agent.qEntryPackLine);
+assignPackagingLine(agent);]]></Code>
 							</Value>
 						</Parameter>
 						<Parameter>
@@ -8747,7 +9378,7 @@ if (batchesShipped + batchesScrapped == 50) printBaselineResults();]]></Code>
 						<Parameter>
 							<Name><![CDATA[capacity]]></Name>
 							<Value Class="CodeValue">
-								<Code><![CDATA[1]]></Code>
+								<Code><![CDATA[targetBatchCount]]></Code>
 							</Value>
 						</Parameter>
 						<Parameter>
@@ -8839,6 +9470,9 @@ if (batchesShipped + batchesScrapped == 50) printBaselineResults();]]></Code>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onEnter]]></Name>
+							<Value Class="CodeValue">
+								<Code><![CDATA[agent.qEntryPkgClean = time();]]></Code>
+							</Value>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onExitTimeout]]></Name>
@@ -8854,6 +9488,9 @@ if (batchesShipped + batchesScrapped == 50) printBaselineResults();]]></Code>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onExit]]></Name>
+							<Value Class="CodeValue">
+								<Code><![CDATA[recordQueueWait(8, time() - agent.qEntryPkgClean);]]></Code>
+							</Value>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onRemove]]></Name>
@@ -8975,7 +9612,14 @@ if (batchesShipped + batchesScrapped == 50) printBaselineResults();]]></Code>
 						<Parameter>
 							<Name><![CDATA[onEnter]]></Name>
 							<Value Class="CodeValue">
-								<Code><![CDATA[agent.productChanged = isPackagingChangeover(agent);]]></Code>
+								<Code><![CDATA[agent.productChanged = isPackagingChangeover(agent);
+agent.setupTimeUsed = 0.5 + (agent.productChanged ? 0.5 : 0.0);
+packageSetupCount++;
+totalSetupHours += 0.5;
+if (agent.productChanged) {
+    packageChangeoverCount++;
+    totalChangeoverHours += 0.5;
+}]]></Code>
 							</Value>
 						</Parameter>
 						<Parameter>
@@ -9192,8 +9836,10 @@ if (batchesShipped + batchesScrapped == 50) printBaselineResults();]]></Code>
 						<Parameter>
 							<Name><![CDATA[onEnter]]></Name>
 							<Value Class="CodeValue">
-								<Code><![CDATA[agent.packYield = triangular(0.990, 0.995, 0.998);
-agent.tablets = agent.tablets * agent.packYield;]]></Code>
+								<Code><![CDATA[agent.tabletsBeforePackYield = agent.tablets;
+agent.packYield = triangular(0.990, 0.998, 0.997);
+agent.tablets = agent.tabletsBeforePackYield * agent.packYield;
+totalPackagingYieldLossTablets += Math.max(0.0, agent.tabletsBeforePackYield - agent.tablets);]]></Code>
 							</Value>
 						</Parameter>
 						<Parameter>
@@ -9380,18 +10026,27 @@ agent.tablets = agent.tablets * agent.packYield;]]></Code>
 							<Name><![CDATA[onEnter]]></Name>
 							<Value Class="CodeValue">
 								<Code><![CDATA[int bs = bottleSize(agent.product);
-agent.bottlesShipped = Math.floor(agent.tablets / bs);
+double tabletsBeforeBottleFill = agent.tablets;
+agent.bottlesShipped = Math.floor(tabletsBeforeBottleFill / bs);
 agent.tablets = agent.bottlesShipped * bs;
+agent.leftoverTabletsScrapped = Math.max(0.0, tabletsBeforeBottleFill - agent.tablets);
+totalLeftoverTabletsScrapped += agent.leftoverTabletsScrapped;
+
 batchesShipped++;
+agent.completionTime = time();
 double ft = time() - agent.arrivalTime;
 totalFlowTime += ft;
 maxFlowTime = Math.max(maxFlowTime, ft);
 totalTabletsShipped += agent.tablets;
 totalBottlesShipped += agent.bottlesShipped;
+recordWeeklyShipment(agent);
+currentWIP = Math.max(0, currentWIP - 1);
 traceln("SHIPPED  | t=" + String.format("%.2f", time()) + " | product=" + agent.product
+    + " | line=" + agent.packLineIndex
     + " | tablets=" + (long)agent.tablets + " | bottles=" + (long)agent.bottlesShipped
+    + " | leftover=" + (long)agent.leftoverTabletsScrapped
     + " | flowTime=" + String.format("%.2f h", ft));
-if (batchesShipped + batchesScrapped == 50) printBaselineResults();
+tryFinishBaseline();
 ]]></Code>
 							</Value>
 						</Parameter>
@@ -9735,6 +10390,276 @@ if (batchesShipped + batchesScrapped == 50) printBaselineResults();
 						</InitialValue>
 					</Properties>
 				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1783000000929</Id>
+					<Name><![CDATA[plannedProduct]]></Name>
+					<X>200</X><Y>460</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[String]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[""]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1783000000930</Id>
+					<Name><![CDATA[plannedReleaseTime]]></Name>
+					<X>200</X><Y>490</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[double]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[0]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1783000000931</Id>
+					<Name><![CDATA[qEntryPremix]]></Name>
+					<X>200</X><Y>520</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[double]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[0]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1783000000932</Id>
+					<Name><![CDATA[qEntryGran]]></Name>
+					<X>200</X><Y>550</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[double]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[0]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1783000000933</Id>
+					<Name><![CDATA[qEntryDryer]]></Name>
+					<X>200</X><Y>580</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[double]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[0]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1783000000934</Id>
+					<Name><![CDATA[qEntryDryClean]]></Name>
+					<X>200</X><Y>610</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[double]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[0]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1783000000935</Id>
+					<Name><![CDATA[qEntryPress]]></Name>
+					<X>200</X><Y>640</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[double]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[0]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1783000000936</Id>
+					<Name><![CDATA[qEntryCoater]]></Name>
+					<X>200</X><Y>670</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[double]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[0]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1783000000937</Id>
+					<Name><![CDATA[qEntryCoatClean]]></Name>
+					<X>200</X><Y>700</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[double]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[0]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1783000000938</Id>
+					<Name><![CDATA[qEntryPackLine]]></Name>
+					<X>200</X><Y>730</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[double]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[0]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1783000000939</Id>
+					<Name><![CDATA[qEntryPkgClean]]></Name>
+					<X>200</X><Y>760</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[double]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[0]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1783000000940</Id>
+					<Name><![CDATA[scrapCause]]></Name>
+					<X>200</X><Y>790</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[String]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[""]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1783000000941</Id>
+					<Name><![CDATA[tabletsBeforePremixYield]]></Name>
+					<X>200</X><Y>820</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[double]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[0]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1783000000942</Id>
+					<Name><![CDATA[tabletsBeforePackYield]]></Name>
+					<X>200</X><Y>850</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[double]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[0]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1783000000943</Id>
+					<Name><![CDATA[leftoverTabletsScrapped]]></Name>
+					<X>200</X><Y>880</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[double]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[0]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1783000000944</Id>
+					<Name><![CDATA[setupTimeUsed]]></Name>
+					<X>200</X><Y>910</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[double]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[0]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1783000000945</Id>
+					<Name><![CDATA[completionTime]]></Name>
+					<X>200</X><Y>940</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[double]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[0]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1783000000946</Id>
+					<Name><![CDATA[completionWeek]]></Name>
+					<X>200</X><Y>970</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[int]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[0]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
 			</Variables>
 			<AgentLinks>
 				<AgentLink>
@@ -9798,7 +10723,7 @@ if (batchesShipped + batchesScrapped == 50) printBaselineResults();
 		<ShutdownCompact>false</ShutdownCompact>
 		<ImportSettings>
 			<ExternalConnection>
-				<Id>1782134196512</Id>
+				<Id>1782145954696</Id>
 				<Name><![CDATA[database]]></Name>
 				<X>0</X><Y>0</Y>
 				<Label><X>10</X><Y>0</Y></Label>
@@ -9811,7 +10736,7 @@ if (batchesShipped + batchesScrapped == 50) printBaselineResults();
 				<DatabaseName><![CDATA[]]></DatabaseName>
 				<ResourceReference>
 					<PackageName><![CDATA[fermacore]]></PackageName>
-					<ClassName><![CDATA[/Users/magle/Desktop/42417 - OpsSim/Project/FermaCore_input_data.xlsx]]></ClassName>
+					<ClassName><![CDATA[FermaCore_BASELINE_READY_bundle/FermaCore_input_data.xlsx]]></ClassName>
 				</ResourceReference>
 				<Host><![CDATA[localhost]]></Host>
 				<JdbcDriverClassName><![CDATA[net.sourceforge.jtds.jdbc.Driver]]></JdbcDriverClassName>
@@ -9819,7 +10744,7 @@ if (batchesShipped + batchesScrapped == 50) printBaselineResults();
 				<Password><![CDATA[]]></Password>
 			</ExternalConnection>
 			<TableImportSettings>
-				<Id>1782142430810</Id>
+				<Id>1782145956717</Id>
 				<TableReference>
 					<PackageName><![CDATA[fermacore]]></PackageName>
 					<ClassName><![CDATA[plan]]></ClassName>
@@ -9829,7 +10754,7 @@ if (batchesShipped + batchesScrapped == 50) printBaselineResults();
 				<AutoImport>false</AutoImport>
 			</TableImportSettings>
 			<TableImportSettings>
-				<Id>1782142430801</Id>
+				<Id>1782145956723</Id>
 				<TableReference>
 					<PackageName><![CDATA[fermacore]]></PackageName>
 					<ClassName><![CDATA[drying_conditioning]]></ClassName>
@@ -9839,7 +10764,7 @@ if (batchesShipped + batchesScrapped == 50) printBaselineResults();
 				<AutoImport>false</AutoImport>
 			</TableImportSettings>
 			<TableImportSettings>
-				<Id>1782142430804</Id>
+				<Id>1782145956714</Id>
 				<TableReference>
 					<PackageName><![CDATA[fermacore]]></PackageName>
 					<ClassName><![CDATA[premix_blending_old_new]]></ClassName>
@@ -9849,7 +10774,7 @@ if (batchesShipped + batchesScrapped == 50) printBaselineResults();
 				<AutoImport>false</AutoImport>
 			</TableImportSettings>
 			<TableImportSettings>
-				<Id>1782142430807</Id>
+				<Id>1782145956720</Id>
 				<TableReference>
 					<PackageName><![CDATA[fermacore]]></PackageName>
 					<ClassName><![CDATA[tablet_line]]></ClassName>
@@ -9877,7 +10802,7 @@ if (batchesShipped + batchesScrapped == 50) printBaselineResults();
 		<AnimationProperties>
 			<StopNever>true</StopNever>
 			<ExecutionMode>realTimeScaled</ExecutionMode>
-			<RealTimeScale>10000.0</RealTimeScale>
+			<RealTimeScale>1000.0</RealTimeScale>
 			<EnableZoomAndPanning>true</EnableZoomAndPanning>
 			<EnableDeveloperPanel>false</EnableDeveloperPanel>
 			<ShowDeveloperPanelOnStart>false</ShowDeveloperPanelOnStart>
@@ -9893,7 +10818,7 @@ if (batchesShipped + batchesScrapped == 50) printBaselineResults();
 			<Id>1782117159886</Id>
 			<Name><![CDATA[Simulation]]></Name>
 			<CommandLineArguments><![CDATA[]]></CommandLineArguments>
-			<MaximumMemory>512</MaximumMemory>
+			<MaximumMemory>4096</MaximumMemory>
 			<RandomNumberGenerationType>fixedSeed</RandomNumberGenerationType>
 			<CustomGeneratorCode>new Random()</CustomGeneratorCode>
 			<SeedValue>1</SeedValue>
@@ -9963,7 +10888,7 @@ if (batchesShipped + batchesScrapped == 50) printBaselineResults();
 				<Title><![CDATA[FermaCore : Simulation]]></Title>
 				<EnableDeveloperPanel>true</EnableDeveloperPanel>
 				<ShowDeveloperPanelOnStart>false</ShowDeveloperPanelOnStart>
-				<RealTimeScale>10000.0</RealTimeScale>
+				<RealTimeScale>1.0</RealTimeScale>
 			</PresentationProperties>
 			<ModelTimeProperties>
 				<StopOption><![CDATA[Stop at specified time]]></StopOption>
@@ -9979,6 +10904,12 @@ if (batchesShipped + batchesScrapped == 50) printBaselineResults();
 		<Resource>
 			<Id>1782134206683</Id>
 			<Path><![CDATA[/Users/magle/Desktop/42417 - OpsSim/Project/FermaCore_input_data.xlsx]]></Path>
+			<ReferencedFromUserCode>false</ReferencedFromUserCode>
+			<Location>FILE_SYSTEM</Location>
+		</Resource>
+		<Resource>
+			<Id>1782145937224</Id>
+			<Path><![CDATA[FermaCore_BASELINE_READY_bundle/FermaCore_input_data.xlsx]]></Path>
 			<ReferencedFromUserCode>false</ReferencedFromUserCode>
 			<Location>FILE_SYSTEM</Location>
 		</Resource>

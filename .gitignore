@@ -1,3 +1,11 @@
+# --- Editor ---
 .vscode/settings.json
-database/db.properties
-database/db.script
+
+# --- AnyLogic embedded database (any folder named "database", at any depth) ---
+# Ignores the whole HSQLDB folder: db.script, db.properties, db.log, db.lck, db.tmp/, etc.
+database/
+**/database/
+
+# --- AnyLogic autosave files ---
+*.autosave
+**/*.autosave
