@@ -7,7 +7,7 @@
 <AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.9.8.202602271013" AlpVersion="8.9.7">
 <Model>
 	<Id>1782117159874</Id>
-	<Name><![CDATA[FermaCore_BASE_Test1]]></Name>
+	<Name><![CDATA[FermaCore_BASE_Test2_Brams]]></Name>
 	<EngineVersion>6</EngineVersion>
 	<JavaPackageName><![CDATA[fermacore]]></JavaPackageName>
 	<ModelTimeUnit><![CDATA[Hour]]></ModelTimeUnit>
@@ -310,6 +310,66 @@ if (groupByProduct) {
 						</InitialValue>
 					</Properties>
 				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>9001000000004</Id>
+					<Name><![CDATA[batchesOnTime]]></Name>
+					<X>-460</X><Y>450</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[int]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[0]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>9001000000005</Id>
+					<Name><![CDATA[batchesLate]]></Name>
+					<X>-460</X><Y>480</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[int]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[0]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>9001000000006</Id>
+					<Name><![CDATA[weeklyBottlesShipped]]></Name>
+					<X>-460</X><Y>510</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[double[]]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[new double[5]]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>9001000000008</Id>
+					<Name><![CDATA[numChangeovers]]></Name>
+					<X>-460</X><Y>540</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[int]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[0]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
 				<Variable Class="Parameter">
 					<Id>1783000000017</Id>
 					<Name><![CDATA[demandMultiplier]]></Name>
@@ -548,7 +608,7 @@ if (groupByProduct) {
 						<UnitType><![CDATA[NONE]]></UnitType>
 						<SdArray>false</SdArray>
 						<DefaultValue Class="CodeValue">
-							<Code><![CDATA[-1.0]]></Code>
+							<Code><![CDATA[-1]]></Code>
 						</DefaultValue>
 						<ParameterEditor>
 							<Id>1783000000036</Id>
@@ -2070,6 +2130,7 @@ return 0;
 					<Body><![CDATA[int i = choosePackagingLine(a.product);
 a.packLineIndex = i;
 a.productChanged = lastProductOnPackLine[i].length() > 0 && !a.product.equals(lastProductOnPackLine[i]);
+if (a.productChanged) numChangeovers++;
 packLineBusy[i] = true;
 ]]></Body>
 				</Function>
@@ -2094,6 +2155,69 @@ if (i >= 0 && i < lastProductOnPackLine.length) {
 }
 lastProductOnLine = a.product; // kept as a fallback/readout from the older single-line logic
 a.packLineIndex = -1;
+]]></Body>
+				</Function>
+				<Function AccessType="default" StaticFunction="false">
+					<ReturnModificator>RETURNS_VALUE</ReturnModificator>
+					<ReturnType><![CDATA[double]]></ReturnType>
+					<Id>9001000000002</Id>
+					<Name><![CDATA[onTimeRate]]></Name>
+					<X>-300</X><Y>440</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Body><![CDATA[int total = batchesOnTime + batchesLate;
+return total > 0 ? ((double)batchesOnTime) / total : 0;
+]]></Body>
+				</Function>
+				<Function AccessType="default" StaticFunction="false">
+					<ReturnModificator>RETURNS_VALUE</ReturnModificator>
+					<ReturnType><![CDATA[String]]></ReturnType>
+					<Id>9001000000003</Id>
+					<Name><![CDATA[weeklyShipmentReport]]></Name>
+					<X>-300</X><Y>500</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Body><![CDATA[StringBuilder sb = new StringBuilder("=== WEEKLY SHIPMENT REPORT ===\n");
+for (int w = 0; w < weeklyBottlesShipped.length; w++) {
+    if (weeklyBottlesShipped[w] > 0) {
+        sb.append("  Week ").append(w + 1).append(": ").append((long)weeklyBottlesShipped[w]).append(" bottles\n");
+    }
+}
+sb.append("  ON-TIME RATE: ").append(String.format("%.1f%%", onTimeRate() * 100))
+  .append("  (").append(batchesOnTime).append(" on-time, ").append(batchesLate).append(" late)");
+return sb.toString();
+]]></Body>
+				</Function>
+				<Function AccessType="default" StaticFunction="false">
+					<ReturnModificator>RETURNS_VALUE</ReturnModificator>
+					<ReturnType><![CDATA[String]]></ReturnType>
+					<Id>9001000000007</Id>
+					<Name><![CDATA[bottleneckReport]]></Name>
+					<X>-300</X><Y>560</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Body><![CDATA[StringBuilder sb = new StringBuilder("=== BOTTLENECK REPORT ===\n");
+sb.append(String.format("  %-26s  %6s  %8s\n", "Resource", "Units", "Utiliz."));
+sb.append(String.format("  %-26s  %6s  %8s\n", "--------", "-----", "-------"));
+sb.append(String.format("  %-26s  %6d  %7.1f%%\n", "blenderNew",     1,                   blenderNew.utilization()*100));
+sb.append(String.format("  %-26s  %6d  %7.1f%%\n", "blenderOld",     1,                   blenderOld.utilization()*100));
+sb.append(String.format("  %-26s  %6d  %7.1f%%\n", "granulator",     1,                   granulator.utilization()*100));
+sb.append(String.format("  %-26s  %6d  %7.1f%%\n", "dryer",          numDryers,           dryer.utilization()*100));
+sb.append(String.format("  %-26s  %6d  %7.1f%%\n", "press",          3,                   press.utilization()*100));
+sb.append(String.format("  %-26s  %6d  %7.1f%%\n", "coater",         1,                   coater.utilization()*100));
+sb.append(String.format("  %-26s  %6d  %7.1f%%\n", "packagingLine",  numPackagingLines,   packagingLine.utilization()*100));
+sb.append(String.format("  %-26s  %6d  %7.1f%%  (dry+coat+pkg)\n",  "cleaningTeam", cleaningTeamCapacity, cleaningTeam.utilization()*100));
+sb.append("\n  --- PERFORMANCE SUMMARY ---\n");
+sb.append(String.format("  shipped=%d  scrapped=%d  scrapRate=%.1f%%\n", batchesShipped, batchesScrapped, scrapRate()*100));
+sb.append(String.format("  meanFlowTime=%.2fh  maxFlowTime=%.2fh\n", meanFlowTime(), maxFlowTime));
+sb.append(String.format("  totalBottles=%d  onTimeRate=%.1f%%  changeovers=%d", (long)totalBottlesShipped, onTimeRate()*100, numChangeovers));
+return sb.toString();
 ]]></Body>
 				</Function>
 			</Functions>
@@ -4970,7 +5094,16 @@ sourceIndex++;
 						<Parameter>
 							<Name><![CDATA[onEnter]]></Name>
 							<Value Class="CodeValue">
-								<Code><![CDATA[agent.premixUnit = "New";]]></Code>
+								<Code><![CDATA[agent.premixUnit = "New";
+agent.premixStartTime = time();
+double deviation = time() - agent.arrivalTime;
+if (deviation > 24.0) {
+    batchesLate++;
+    traceln("LATE     | t=" + String.format("%.2f", time()) + " | product=" + agent.product + " | blender=New | deviation=" + String.format("%.1f h", deviation));
+} else {
+    batchesOnTime++;
+}
+]]></Code>
 							</Value>
 						</Parameter>
 						<Parameter>
@@ -5409,7 +5542,16 @@ agent.tablets = 300000 * agent.premixYield;]]></Code>
 						<Parameter>
 							<Name><![CDATA[onEnter]]></Name>
 							<Value Class="CodeValue">
-								<Code><![CDATA[agent.premixUnit = "Old";]]></Code>
+								<Code><![CDATA[agent.premixUnit = "Old";
+agent.premixStartTime = time();
+double deviation = time() - agent.arrivalTime;
+if (deviation > 24.0) {
+    batchesLate++;
+    traceln("LATE     | t=" + String.format("%.2f", time()) + " | product=" + agent.product + " | blender=Old | deviation=" + String.format("%.1f h", deviation));
+} else {
+    batchesOnTime++;
+}
+]]></Code>
 							</Value>
 						</Parameter>
 						<Parameter>
@@ -9334,9 +9476,17 @@ totalFlowTime += ft;
 maxFlowTime = Math.max(maxFlowTime, ft);
 totalTabletsShipped += agent.tablets;
 totalBottlesShipped += agent.bottlesShipped;
+int weekNum = (int)(time() / 168.0);
+if (weekNum < weeklyBottlesShipped.length) {
+    weeklyBottlesShipped[weekNum] += agent.bottlesShipped;
+}
 traceln("SHIPPED  | t=" + String.format("%.2f", time()) + " | product=" + agent.product
     + " | tablets=" + (long)agent.tablets + " | bottles=" + (long)agent.bottlesShipped
-    + " | flowTime=" + String.format("%.2f h", ft));
+    + " | flowTime=" + String.format("%.2f h", ft) + " | week=" + (weekNum + 1));
+if (batchesShipped + batchesScrapped >= 50) {
+    traceln(weeklyShipmentReport());
+    traceln(bottleneckReport());
+}
 ]]></Code>
 							</Value>
 						</Parameter>
@@ -9677,6 +9827,21 @@ traceln("SHIPPED  | t=" + String.format("%.2f", time()) + " | product=" + agent.
 						<Type><![CDATA[int]]></Type>        
 						<InitialValue Class="CodeValue">
 							<Code><![CDATA[-1]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>9001000000001</Id>
+					<Name><![CDATA[premixStartTime]]></Name>
+					<X>200</X><Y>460</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[double]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[0]]></Code>
 						</InitialValue>
 					</Properties>
 				</Variable>
