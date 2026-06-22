@@ -1,18 +1,9 @@
 \section{Introduction and Objective}
 \label{sec:intro}
 
-% ~0.5 page. State the business problem and the simulation objective.
-FermaCore Labs operates a tablet production line that combines batch-type and
-rate-based operations. Management's \emph{2030 plan} aims to maximise output
-within the \emph{existing} capacity before committing to a capital expansion.
-This study uses discrete-event simulation (DES) in AnyLogic to (i) assess the
-current operational performance, (ii) locate the bottleneck, (iii) quantify the
-effect of targeted improvements, and (iv) determine the maximum demand the line
-can absorb on the path to 2030.
+FermaCore Labs operates a tablet production line combining batch-type and rate-based operations. Management's 2030 plan aims to maximize output within the existing capacity before committing to long-lead-time capital expansions. 
 
-The study follows the General Simulation Methodology \autocite{rossetti2016}.
+The objective of this study is to use discrete-event simulation (DES) in AnyLogic to map the current system dynamics and identify operational bottlenecks. Using this baseline, we will quantify the effects of targeted improvements—such as equipment additions and batch resequencing—to determine the maximum sustainable weekly demand the line can absorb towards 2030.
 
-\paragraph{Scope.} We address all mandatory requirements and the three specific
-issues (bottleneck identification, improvement design, performance towards 2030),
-and add one Industry~4.0 scenario (sensor-based reduction of tablet-press scrap
-from \SI{10}{\percent} to \SI{4}{\percent}).
+\subsection*{Scope}
+This report covers the mandatory simulation requirements: evaluating the current baseline, finding the bottleneck, and testing capacity limits for the 2030 plan. We also include one optional analysis on Industry 4.0, specifically how sensor-driven scrap reduction at the tablet press affects overall throughput.

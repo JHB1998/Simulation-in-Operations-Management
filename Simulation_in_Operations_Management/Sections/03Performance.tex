@@ -1,27 +1,54 @@
-\section{Performance Management (KPIs)}
-\label{sec:kpi}
+\section{Performance Management}
+\label{sec:performance}
 
-% Mandatory: list KPIs AND argue why. ~0.75 page.
-We measure four headline KPIs and one secondary KPI, chosen to expose the
-constraint and to speak directly to management's goal of maximising output.
+To evaluate the operational performance of the FermaCore line and compare improvement scenarios, we established four distinct Key Performance Indicators (KPIs). These metrics are designed to be independent, avoiding overlapping measurements, and are strictly defined using the S.M.A.R.T. framework to directly address management's objectives.
 
 \begin{table}[H]
 \centering
-\caption{Performance metrics used in this study.}
+\caption{Performance metrics and S.M.A.R.T. justification.}
 \label{tab:kpis}
-\begin{tabularx}{\textwidth}{l l X}
+\renewcommand{\arraystretch}{1.5}
+\begin{tabularx}{\textwidth}{@{} >{\raggedright\arraybackslash}p{4cm} X @{}}
 \toprule
-\textbf{KPI} & \textbf{Type} & \textbf{Why it was chosen} \\
+\rowcolor{black!5} 
+\textbf{Key Performance Indicator} & \multicolumn{1}{c}{\textbf{S.M.A.R.T}} \\
 \midrule
-Weekly throughput (good bottles / tablets) & Headline & Directly operationalises the 2030 goal of maximising output. \\
-Resource utilisation per station & Headline & Primary bottleneck detector: the station near \SI{100}{\percent} while others starve is the constraint. \\
-Batch flow time (release $\rightarrow$ shipped) & Headline & Responsiveness; sensitive to cleaning-team contention and changeovers. \\
-WIP / queue length per station & Headline & Localises \emph{where} batches accumulate; corroborates utilisation. \\
-Scrap rate / overall yield & Secondary & Links to the Industry~4.0 lever (press scrap \SI{10}{\percent}$\rightarrow$\SI{4}{\percent}). \\
+
+\textbf{Weekly throughput}\newline
+\textcolor{gray}{\small \textit{Headline metric}} & 
+\textcolor{red!70!black}{\textbf{S:}} Tracks the exact number of completed batches exiting the packaging lines. \newline
+\textcolor{orange!80!black}{\textbf{M:}} Counted discretely at the sink block using the \texttt{batchesShipped} variable. \newline
+\textcolor{green!60!black}{\textbf{A:}} The baseline establishes current limits, making subsequent improvements realistic. \newline
+\textcolor{blue!70!black}{\textbf{R:}} Directly answers the core objective regarding maximum output before capital expansion. \newline
+\textcolor{purple!70!black}{\textbf{T:}} Measured uniformly over a standard 168-hour production week. \\
+\midrule
+
+\textbf{Station utilisation}\newline
+\textcolor{gray}{\small \textit{Headline metric}} & 
+\textcolor{red!70!black}{\textbf{S:}} Evaluates individual constraints (drying unit, packaging lines, cleaning team). \newline
+\textcolor{orange!80!black}{\textbf{M:}} Calculated as total busy hours divided by total available simulation hours. \newline
+\textcolor{green!60!black}{\textbf{A:}} Native output generated accurately by AnyLogic resource pools. \newline
+\textcolor{blue!70!black}{\textbf{R:}} Locates the bottleneck and verifies if improvements merely shift it to another station. \newline
+\textcolor{purple!70!black}{\textbf{T:}} Tracked continuously across the designated simulation run length. \\
+\midrule
+
+\textbf{Batch flow time}\newline
+\textcolor{gray}{\small \textit{Headline metric}} & 
+\textcolor{red!70!black}{\textbf{S:}} Tracks the exact duration from premix start to packaging completion for each batch. \newline
+\textcolor{orange!80!black}{\textbf{M:}} Recorded using the \texttt{totalFlowTime} and \texttt{maxFlowTime} variables. \newline
+\textcolor{green!60!black}{\textbf{A:}} AnyLogic natively logs the entry and exit times of each batch agent. \newline
+\textcolor{blue!70!black}{\textbf{R:}} Ensures production meets the operational constraint of $\le$ 1-day deviation from the plan. \newline
+\textcolor{purple!70!black}{\textbf{T:}} Measured continuously for each completed batch during the simulation. \\
+\midrule
+
+\textbf{System yield rate}\newline
+\textcolor{gray}{\small \textit{Secondary metric}} & 
+\textcolor{red!70!black}{\textbf{S:}} Focuses purely on material efficiency and tablet loss. \newline
+\textcolor{orange!80!black}{\textbf{M:}} Tracks \texttt{batchesScrapped} and final \texttt{tablets} count relative to the starting volume. \newline
+\textcolor{green!60!black}{\textbf{A:}} Calculated by subtracting scrap events at premix, compression, and packaging. \newline
+\textcolor{blue!70!black}{\textbf{R:}} Evaluates if the Industry 4.0 scenario (reducing press scrap) translates to higher final output. \newline
+\textcolor{purple!70!black}{\textbf{T:}} Calculated cumulatively at the end of the steady-state simulation period. \\
+
 \bottomrule
 \end{tabularx}
 \end{table}
-
-% Constraint we respect but do not analyse heavily:
-The planned-vs-actual completion date (the $\le 1$-day deviation constraint) is
-respected as a modelling constraint rather than reported as a headline KPI.
