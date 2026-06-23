@@ -1,0 +1,112 @@
+=== DATA CHECK ===
+productPlan.length = 50  (expect 50)
+arrivalTimes.length = 50  (expect 50)
+CoreTab=17  PlusTab=18  MaxTab=15  (expect 17 / 18 / 15)
+First: CoreTab  Last: PlusTab
+Packaging line memory slots = 3
+=== END DATA CHECK ===
+SHIPPED  | t=22,32 | product=CoreTab | line=-1 | tablets=294840 | bottles=1638 | leftover=34 | flowTime=21,82 h
+SHIPPED  | t=32,21 | product=CoreTab | line=-1 | tablets=295560 | bottles=1642 | leftover=74 | flowTime=31,21 h
+SHIPPED  | t=42,13 | product=CoreTab | line=-1 | tablets=296280 | bottles=1646 | leftover=15 | flowTime=40,63 h
+SCRAPPED | t=46,78 | product=PlusTab | cause=Premix/blending failure during processing (hazard approximation) | total_scrapped=1
+SHIPPED  | t=52,03 | product=CoreTab | line=-1 | tablets=295740 | bottles=1643 | leftover=103 | flowTime=49,53 h
+SHIPPED  | t=61,91 | product=CoreTab | line=-1 | tablets=295380 | bottles=1641 | leftover=144 | flowTime=59,91 h
+SHIPPED  | t=72,19 | product=PlusTab | line=-1 | tablets=294660 | bottles=1637 | leftover=154 | flowTime=68,69 h
+SHIPPED  | t=82,12 | product=PlusTab | line=-1 | tablets=295740 | bottles=1643 | leftover=66 | flowTime=79,12 h
+SHIPPED  | t=92,03 | product=PlusTab | line=-1 | tablets=295920 | bottles=1644 | leftover=15 | flowTime=88,03 h
+SHIPPED  | t=101,93 | product=PlusTab | line=-1 | tablets=295920 | bottles=1644 | leftover=93 | flowTime=97,43 h
+SHIPPED  | t=111,81 | product=MaxTab | line=-1 | tablets=293700 | bottles=979 | leftover=189 | flowTime=86,81 h
+SHIPPED  | t=121,72 | product=MaxTab | line=-1 | tablets=296100 | bottles=987 | leftover=245 | flowTime=96,22 h
+SHIPPED  | t=131,64 | product=PlusTab | line=-1 | tablets=296280 | bottles=1646 | leftover=86 | flowTime=126,64 h
+SCRAPPED | t=132,06 | product=CoreTab | cause=Premix/blending failure during processing (hazard approximation) | total_scrapped=2
+SCRAPPED | t=137,42 | product=PlusTab | cause=Premix/blending failure during processing (hazard approximation) | total_scrapped=3
+SHIPPED  | t=141,55 | product=MaxTab | line=-1 | tablets=296100 | bottles=987 | leftover=67 | flowTime=115,55 h
+SHIPPED  | t=151,45 | product=MaxTab | line=-1 | tablets=294900 | bottles=983 | leftover=192 | flowTime=145,95 h
+SHIPPED  | t=161,36 | product=MaxTab | line=-1 | tablets=295500 | bottles=985 | leftover=196 | flowTime=134,86 h
+SHIPPED  | t=171,25 | product=PlusTab | line=-1 | tablets=294840 | bottles=1638 | leftover=62 | flowTime=143,75 h
+SHIPPED  | t=181,14 | product=CoreTab | line=-1 | tablets=295560 | bottles=1642 | leftover=59 | flowTime=132,14 h
+SHIPPED  | t=191,05 | product=CoreTab | line=-1 | tablets=295920 | bottles=1644 | leftover=94 | flowTime=141,55 h
+SHIPPED  | t=200,92 | product=PlusTab | line=-1 | tablets=295200 | bottles=1640 | leftover=70 | flowTime=172,92 h
+SHIPPED  | t=210,81 | product=CoreTab | line=-1 | tablets=294660 | bottles=1637 | leftover=10 | flowTime=160,81 h
+SHIPPED  | t=220,70 | product=PlusTab | line=-1 | tablets=295740 | bottles=1643 | leftover=83 | flowTime=192,20 h
+SHIPPED  | t=230,61 | product=MaxTab | line=-1 | tablets=295500 | bottles=985 | leftover=135 | flowTime=179,61 h
+SHIPPED  | t=240,54 | product=PlusTab | line=-1 | tablets=296280 | bottles=1646 | leftover=141 | flowTime=211,54 h
+SHIPPED  | t=250,46 | product=MaxTab | line=-1 | tablets=296100 | bottles=987 | leftover=292 | flowTime=198,46 h
+SHIPPED  | t=260,34 | product=MaxTab | line=-1 | tablets=295500 | bottles=985 | leftover=7 | flowTime=207,34 h
+SHIPPED  | t=270,26 | product=CoreTab | line=-1 | tablets=295740 | bottles=1643 | leftover=123 | flowTime=240,76 h
+SHIPPED  | t=280,16 | product=PlusTab | line=-1 | tablets=295920 | bottles=1644 | leftover=157 | flowTime=226,66 h
+SHIPPED  | t=290,10 | product=CoreTab | line=-1 | tablets=296820 | bottles=1649 | leftover=5 | flowTime=239,60 h
+SHIPPED  | t=299,98 | product=CoreTab | line=-1 | tablets=295020 | bottles=1639 | leftover=46 | flowTime=226,48 h
+SHIPPED  | t=309,91 | product=MaxTab | line=-1 | tablets=295200 | bottles=984 | leftover=216 | flowTime=258,41 h
+SHIPPED  | t=319,79 | product=CoreTab | line=-1 | tablets=295380 | bottles=1641 | leftover=138 | flowTime=245,29 h
+SHIPPED  | t=329,66 | product=MaxTab | line=-1 | tablets=294900 | bottles=983 | leftover=127 | flowTime=277,16 h
+SHIPPED  | t=339,54 | product=MaxTab | line=-1 | tablets=294600 | bottles=982 | leftover=294 | flowTime=264,54 h
+SHIPPED  | t=349,43 | product=MaxTab | line=-1 | tablets=295200 | bottles=984 | leftover=226 | flowTime=272,93 h
+SHIPPED  | t=359,29 | product=PlusTab | line=-1 | tablets=294660 | bottles=1637 | leftover=177 | flowTime=286,29 h
+SHIPPED  | t=369,17 | product=PlusTab | line=-1 | tablets=294840 | bottles=1638 | leftover=34 | flowTime=291,67 h
+SHIPPED  | t=379,04 | product=CoreTab | line=-1 | tablets=295020 | bottles=1639 | leftover=129 | flowTime=305,04 h
+SHIPPED  | t=388,93 | product=PlusTab | line=-1 | tablets=294840 | bottles=1638 | leftover=9 | flowTime=291,93 h
+SHIPPED  | t=398,85 | product=MaxTab | line=-1 | tablets=296400 | bottles=988 | leftover=228 | flowTime=323,35 h
+SHIPPED  | t=408,75 | product=PlusTab | line=-1 | tablets=295380 | bottles=1641 | leftover=112 | flowTime=311,25 h
+SHIPPED  | t=418,69 | product=PlusTab | line=-1 | tablets=296280 | bottles=1646 | leftover=55 | flowTime=320,69 h
+SHIPPED  | t=428,58 | product=MaxTab | line=-1 | tablets=295500 | bottles=985 | leftover=27 | flowTime=352,58 h
+SHIPPED  | t=438,50 | product=CoreTab | line=-1 | tablets=296460 | bottles=1647 | leftover=52 | flowTime=338,50 h
+SHIPPED  | t=448,38 | product=MaxTab | line=-1 | tablets=295200 | bottles=984 | leftover=214 | flowTime=371,38 h
+SHIPPED  | t=458,29 | product=CoreTab | line=-1 | tablets=296280 | bottles=1646 | leftover=19 | flowTime=359,79 h
+SHIPPED  | t=468,16 | product=CoreTab | line=-1 | tablets=294300 | bottles=1635 | leftover=118 | flowTime=369,16 h
+SHIPPED  | t=478,05 | product=PlusTab | line=-1 | tablets=295380 | bottles=1641 | leftover=150 | flowTime=377,05 h
+
+=== BASELINE RESULTS ===
+Sim time at completion (h): 478,05
+Batches shipped:  47
+Batches scrapped: 3
+Total completed:  50  (expect 50)
+Scrap rate:       0,060
+Mean flow time, shipped only (h): 202,83
+Max flow time, shipped only (h):  377,05
+Max WIP observed: 41
+Avg WIP (time-weighted): 20,13
+Flow time std dev, shipped only (h): 103,16
+Total tablets shipped: 13887240
+Total bottles shipped: 67306
+--- Per-product (shipped) ---
+  CoreTab: shipped=16 scrapped=1 bottles=26272 meanFlow(h)=185,14
+  PlusTab: shipped=16 scrapped=2 bottles=26266 meanFlow(h)=205,37
+  MaxTab: shipped=15 scrapped=0 bottles=14768 meanFlow(h)=219,01
+--- Scrap/loss breakdown ---
+  Full-batch premix failure scraps: 3
+  Premix yield loss tablets:        152847
+  Packaging/inspection yield loss:  64256
+  Bottle-fill leftover tablets:     5307
+--- Packaging setup/changeover ---
+  Setups:      47  hours=23,50
+  Changeovers: 20  hours=10,00
+--- Release plan check ---
+  Releases >24h from planned start: 0
+  Max release deviation (h):        18,50
+--- Queue waits by stage (h) ---
+  Premix/blending: mean=15,30 max=38,57 n=50
+  Granulation: mean=0,04 max=0,99 n=47
+  Drying unit: mean=150,67 max=309,36 n=47
+  Drying cleaning team: mean=3,71 max=13,77 n=47
+  Compression: mean=0,00 max=0,00 n=47
+  Coating unit: mean=0,00 max=0,00 n=31
+  Coating cleaning team: mean=2,50 max=5,84 n=31
+  Packaging line: mean=0,00 max=0,00 n=47
+  Packaging setup/changeover cleaning team: mean=1,12 max=5,94 n=47
+--- Weekly shipments/scrap (weeks with activity) ---
+  Week 0: shipped batches=15 scrapped batches=3 bottles=21345 tablets=4432620
+  Week 1: shipped batches=17 scrapped batches=0 bottles=24630 tablets=5024280
+  Week 2: shipped batches=15 scrapped batches=0 bottles=21331 tablets=4430340
+--- Machine failures ---
+  total: 0 | blenderNew=0 blenderOld=0 packagingLine=0
+--- Utilisation (mean 0..1) ---
+  blenderNew    : 0,202
+  blenderOld    : 0,296
+  granulator    : 0,045
+  dryer         : 0,953
+  press         : 0,066
+  coater        : 0,359
+  packagingLine : 0,553
+  cleaningTeam  : 0,837
+=== END BASELINE RESULTS ===
