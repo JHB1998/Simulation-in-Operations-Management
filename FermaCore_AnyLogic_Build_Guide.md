@@ -453,3 +453,79 @@ Place simple **Geometric** boxes/cylinders (or imported `.obj/.dae`) on each nod
 ## What "done" looks like
 
 A single `.alp` that: drives 50 batches from the plan arrays via interarrival times; flows each batch through premix (routed parallel Seize/Delay/Release, with a **probabilistic batch-scrap** at `premixFailureCheck`), granulation, drying (+2 h clean), compression (flat 2 h, no scrap), coating (CoreTab bypass, +1 h clean), and packaging (line assignment, setup/changeover by the cleaning team, pack, yield, bottling); reports throughput, per-station utilisation, mean/max flow time, WIP and scrap/yield; runs as a Parameter Variation with enough replications for 95% confidence; and re-runs every scenario by changing parameters (`numDryers`, `numPackagingLines`, `cleaningTeamCapacity`, `groupByProduct`, `demandMultiplier`, `mtbfMultiplier`). Build it in that order, verify after Part 4, and you'll never be more than one block away from a working model.
+
+---
+
+## Part 13 — Extra KPI instrumentation and on-canvas charts (added after baseline verification)
+
+These were added to `FermaCore_BASE_v3.alp` (and inherited by the replication harness). They change **no** process logic — only measurement and visualisation — so the headline KPIs match the verified baseline exactly.
+
+### 13.1 Variables added on `Main`
+| Variable | Type | Purpose |
+|---|---|---|
+| `areaWIP`, `lastWIPChangeTime` | double | running time-integral of WIP (∫ WIP·dt) |
+| `sumFlowTimeSq` | double | Σ(flow time²), for the std-dev formula |
+| `shippedByProduct[3]`, `scrappedByProduct[3]`, `flowTimeByProduct[3]`, `bottlesByProduct[3]` | int[]/double[] | per-product KPIs, index `CoreTab=0, PlusTab=1, MaxTab=2` |
+
+### 13.2 Functions added on `Main`
+- `updateWIPArea()` — `areaWIP += currentWIP * (time() − lastWIPChangeTime); lastWIPChangeTime = time();` **Call it *before* every change to `currentWIP`.**
+- `avgWIP()` — flushes the open segment then returns `areaWIP / time()` → **time-weighted mean WIP** (use it with mean flow time to sanity-check Little's Law `L = λ·W`).
+- `flowTimeStd()` — population std dev of shipped-batch flow time from `sumFlowTimeSq`, `totalFlowTime`, `batchesShipped`.
+- `productIndex(String p)` — maps the product string to `0/1/2` (`-1` if unknown).
+
+These calls were inserted at the **Source on-exit** (before `currentWIP++`) and at **both sinks** (before `currentWIP--`), plus `sumFlowTimeSq` and the per-product counters at `sinkShipped`. `printBaselineResults()` now also prints **Avg WIP**, **flow-time std**, and a **per-product** table.
+
+### 13.3 The `dsWIP` dataset and the two charts
+- **`dsWIP`** — a `DataSet` (in a new `AnalysisData` section). At every WIP change the code does `dsWIP.add(time(), currentWIP)`.
+- **`chartUtilization`** (BarChart) — 8 bars, one per pool: `dryer.utilization()`, `cleaningTeam.utilization()`, … on a fixed 0–1 scale. **This is the figure that names the bottleneck.**
+- **`chartWIP`** (TimePlot) — plots `dsWIP` over time. **Steady-state / warm-up evidence:** a line that climbs monotonically means the line backs up (it does — drying is the constraint).
+
+Both charts sit on the `Main` canvas at `X≈1150` (right of the flowchart). When authoring chart XML by hand, mirror an existing AnyLogic model's schema exactly and re-validate (`xmllint --noout`); AnyLogic will silently drop a malformed shape.
+
+---
+
+## Part 14 — The replication harness (`ReplicationsExp`)
+
+A **Parameter Variation** experiment that replicates the baseline config N times with **unique seeds** and writes one row of KPIs per replication to a CSV — so the analyst works from data without opening the model.
+
+### 14.1 Key settings
+- **`ActiveObjectClassId`** = `Main`. **`RandomNumberGenerationType = randomSeed`** (each replication a different seed — the Simulation experiment keeps `fixedSeed=1`, untouched).
+- **All 10 parameters pinned `FIXED`** at their defaults (a `RangeVariationParamValue … Type FIXED` per parameter Id) → this is the baseline-CI generator, *not* a scenario sweep.
+- **`AllowParallelEvaluations = false`** — deliberate, so replications don't write the CSV concurrently and corrupt it.
+- **`ReplicationPerIteration = 20`** (see N-sizing below). Backstop stop time 5000 h; each replication self-terminates at 50 batches via `finishSimulation()`.
+
+### 14.2 CSV columns (`FermaCore_replications.csv`)
+Header written in `InitialSetupCode`; one row per replication appended in `AfterSimulationRunCode` (fields read off `root`, the finished `Main`):
+
+```
+rep, bottlesShipped, batchesShipped, batchesScrapped, scrapRate,
+meanFlowTime, maxFlowTime, flowTimeStd, avgWIP, maxWIP,
+dryerUtil, cleaningTeamUtil, packagingUtil, pressUtil, coaterUtil,
+coreTabBottles, plusTabBottles, maxTabBottles,
+releaseViolations, maxReleaseDev, completionTime
+```
+
+`releaseViolations` (`releasePlanViolationCount`, batches released >24 h from plan) and `maxReleaseDev` cover the case's **"may not deviate more than one day from the planned production date"** constraint. Per-product bottles cover the three variants.
+
+### 14.3 How many replications? (half-width method, w5 tool)
+From a 10-rep pilot of the baseline (95%, t(9)=2.262):
+
+| KPI | mean | 95% half-width | N for 5%-of-mean |
+|---|---|---|---|
+| Throughput (bottles) | 68,116 | ±3,096 (4.5%) | 9 |
+| Mean flow time (h) | 202.2 | ±10.2 (5.0%) | 11 |
+| Dryer utilisation | 0.949 | ±0.003 (0.4%) | <5 |
+| **Scrap rate** | **0.058** | **±0.044 (77%)** | impractical (use absolute ε) |
+
+Throughput and flow time need ~9–11 reps; **scrap rate is the noisy one** (one pilot rep scrapped 11 batches). 5%-relative on scrap is unreachable; an **absolute** target gives ε=0.03 → N≈22, ε=0.02 → N≈50. **N = 20 is the chosen compromise** — comfortable for throughput/flow/utilisation, ≈±0.03 on scrap. Report this calculation; the *showing of the half-width work* is graded. (To auto-size instead, set `FixedReplicationsNumber=false`; the experiment then replicates until the 95% CI half-width on `root.meanFlowTime()` reaches 5%.)
+
+---
+
+## Part 15 — Case-alignment notes & documented simplifications
+
+Cross-checked against the June-2026 case (Manufacturing). The model matches the case on all process times/distributions, the shared cleaning team, the weekly shipping cycle and the 150+75 kg batch. The following are **deliberate simplifications to state in the report** (Assumptions / Validation):
+
+1. **Premix failure = probabilistic batch-scrap, no blender repair downtime.** The case gives failure frequencies (xlsx) *and* asks for a **repair duration fitted with the distribution fitter**, implying the blender goes offline for repair. The model scraps the batch via an exponential-hazard probability but does **not** take the blender offline. Defensible because blenders are far from the bottleneck (util ≈0.20–0.30), but (a) document it and (b) note the input-modeling section therefore does **not** fit a premix repair distribution.
+2. **Packaging-line downtime omitted.** The case says lines "**optionally**… can be subject to downtime." Not modelled — state as an assumption.
+3. **Scrap location and level.** Baseline scrap (~6%) is **data-derived** from the premix Weibull failure frequencies. The case's "10% → 4%" figure is a **non-mandatory Industry-4.0 anecdote about *press*-force drift**, a mechanism the model does not separately represent. **Decision:** keep the baseline data-derived (~6%) for input-modeling/V&V credit; model the **Industry-4.0 scenario** as `premixFailureProbability = 0.04`; and discuss the 10%-stated-vs-6%-modelled gap under Validation. (If you instead want the baseline pinned to the case's 10%, set the `Main` `premixFailureProbability` default to `0.10` — but that discards the Weibull input model.)
+4. **`packLineIndex = -1` in the `SHIPPED` trace is a cosmetic artifact, not a bug.** `assignPackagingLine` sets the real line (0/1/2) and `isPackagingChangeover` reads the **per-line** array `lastProductOnPackLine[i]` while the index is live; `releasePackagingLine` records the product per line, then resets the field to `-1` *before* the sink prints it. Changeovers are genuinely line-specific. (Delete the `a.packLineIndex = -1;` line in `releasePackagingLine` if you want the trace to show the real line.)

@@ -11304,7 +11304,7 @@ tryFinishBaseline();
 repCount = 0;
 try {
     java.io.FileWriter fw = new java.io.FileWriter("FermaCore_replications.csv", false);
-    fw.write("rep,bottlesShipped,batchesShipped,batchesScrapped,scrapRate,meanFlowTime,maxFlowTime,flowTimeStd,avgWIP,maxWIP,dryerUtil,cleaningTeamUtil,packagingUtil,completionTime\n");
+    fw.write("rep,bottlesShipped,batchesShipped,batchesScrapped,scrapRate,meanFlowTime,maxFlowTime,flowTimeStd,avgWIP,maxWIP,dryerUtil,cleaningTeamUtil,packagingUtil,pressUtil,coaterUtil,coreTabBottles,plusTabBottles,maxTabBottles,releaseViolations,maxReleaseDev,completionTime\n");
     fw.close();
 } catch (Exception e) {
     traceln("CSV header error: " + e);
@@ -11329,6 +11329,13 @@ try {
         + "," + root.dryer.utilization()
         + "," + root.cleaningTeam.utilization()
         + "," + root.packagingLine.utilization()
+        + "," + root.press.utilization()
+        + "," + root.coater.utilization()
+        + "," + root.bottlesByProduct[0]
+        + "," + root.bottlesByProduct[1]
+        + "," + root.bottlesByProduct[2]
+        + "," + root.releasePlanViolationCount
+        + "," + root.maxReleaseDeviationHours
         + "," + root.time()
         + "\n");
     fw.close();
@@ -11470,7 +11477,7 @@ try {
 			<ReplicationsProperties>
 				<UseReplication>true</UseReplication>
 				<FixedReplicationsNumber>true</FixedReplicationsNumber>
-				<ReplicationPerIteration>10</ReplicationPerIteration>
+				<ReplicationPerIteration>20</ReplicationPerIteration>
 				<MinimumReplication>5</MinimumReplication>
 				<MaximumReplication>50</MaximumReplication>
 				<ConfidenceLevel>LEVEL_95</ConfidenceLevel>
