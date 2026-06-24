@@ -7,7 +7,7 @@
 <AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.9.8.202602271013" AlpVersion="8.9.7">
 <Model>
 	<Id>1782117159874</Id>
-	<Name><![CDATA[FermaCore_Replication_Harness_Brams]]></Name>
+	<Name><![CDATA[FermaCore_Replication_Harness_Brams_testV2]]></Name>
 	<EngineVersion>6</EngineVersion>
 	<JavaPackageName><![CDATA[fermacore]]></JavaPackageName>
 	<ModelTimeUnit><![CDATA[Hour]]></ModelTimeUnit>
@@ -853,7 +853,7 @@ if (groupByProduct) {
 						<UnitType><![CDATA[NONE]]></UnitType>
 						<SdArray>false</SdArray>
 						<DefaultValue Class="CodeValue">
-							<Code><![CDATA[1.25]]></Code>
+							<Code><![CDATA[1.0]]></Code>
 						</DefaultValue>
 						<ParameterEditor>
 							<Id>1783000000018</Id>
@@ -878,7 +878,7 @@ if (groupByProduct) {
 						<UnitType><![CDATA[NONE]]></UnitType>
 						<SdArray>false</SdArray>
 						<DefaultValue Class="CodeValue">
-							<Code><![CDATA[2]]></Code>
+							<Code><![CDATA[1]]></Code>
 						</DefaultValue>
 						<ParameterEditor>
 							<Id>1783000000020</Id>
@@ -1003,7 +1003,7 @@ if (groupByProduct) {
 						<UnitType><![CDATA[NONE]]></UnitType>
 						<SdArray>false</SdArray>
 						<DefaultValue Class="CodeValue">
-							<Code><![CDATA[4]]></Code>
+							<Code><![CDATA[3]]></Code>
 						</DefaultValue>
 						<ParameterEditor>
 							<Id>1783000000030</Id>
@@ -1090,6 +1090,54 @@ if (groupByProduct) {
 						</ParameterEditor>
 					</Properties>                 
 				</Variable>
+				<Variable Class="Parameter">
+					<Id>1719234567890</Id>
+					<Name><![CDATA[pressScrapRate]]></Name>
+					<X>-720</X><Y>380</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
+						<Type><![CDATA[double]]></Type>
+						<UnitType><![CDATA[NONE]]></UnitType>
+						<SdArray>false</SdArray>
+						<DefaultValue Class="CodeValue">
+							<Code><![CDATA[0.10]]></Code>
+						</DefaultValue>
+						<ParameterEditor>
+							<Id>1782305414343</Id>
+							<EditorContolType>TEXT_BOX</EditorContolType>
+							<MinSliderValue><![CDATA[0]]></MinSliderValue>
+							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
+							<DelimeterType>NO_DELIMETER</DelimeterType>
+						</ParameterEditor>
+					</Properties>                 
+				</Variable>
+				<Variable Class="Parameter">
+					<Id>1719234567891</Id>
+					<Name><![CDATA[queueStrategy]]></Name>
+					<X>-720</X><Y>410</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
+						<Type><![CDATA[int]]></Type>
+						<UnitType><![CDATA[NONE]]></UnitType>
+						<SdArray>false</SdArray>
+						<DefaultValue Class="CodeValue">
+							<Code><![CDATA[0]]></Code>
+						</DefaultValue>
+						<ParameterEditor>
+							<Id>1782305414345</Id>
+							<EditorContolType>TEXT_BOX</EditorContolType>
+							<MinSliderValue><![CDATA[0]]></MinSliderValue>
+							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
+							<DelimeterType>NO_DELIMETER</DelimeterType>
+						</ParameterEditor>
+					</Properties>                 
+				</Variable>
 			</Variables>
 			<Connectors>
 				<Connector>
@@ -1156,7 +1204,7 @@ if (groupByProduct) {
 					<Points>
 						<Point><X>0</X><Y>0</Y></Point>
 						<Point><X>-40</X><Y>0</Y></Point>
-						<Point><X>-40</X><Y>40</Y></Point>
+						<Point><X>-70</X><Y>0</Y></Point>
 						<Point><X>-70</X><Y>40</Y></Point>
 					</Points>
 				</Connector>
@@ -5440,6 +5488,7 @@ failureCountPackaging++;]]></Code>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
+					<PresentationId>1782305493559</PresentationId>
 					<ActiveObjectClass>
 						<PackageName><![CDATA[com.anylogic.libraries.processmodeling]]></PackageName>
 						<ClassName><![CDATA[SelectOutput]]></ClassName>
@@ -5693,6 +5742,9 @@ failureCountPackaging++;]]></Code>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[comparison]]></Name>
+							<Value Class="CodeValue">
+								<Code><![CDATA[queueStrategy == 2 ? -agent.dryingTime : (queueStrategy == 1 ? -agent.plannedReleaseTime : -agent.arrivalTime)]]></Code>
+							</Value>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onTaskSuspended]]></Name>
@@ -8199,6 +8251,9 @@ tryFinishBaseline();]]></Code>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onExit]]></Name>
+							<Value Class="CodeValue">
+								<Code><![CDATA[agent.tablets = (int) Math.round(agent.tablets * (1 - pressScrapRate));]]></Code>
+							</Value>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onRemove]]></Name>
@@ -10331,6 +10386,26 @@ tryFinishBaseline();
 					<Z>0</Z>
 					<LevelVisibility>DIM_NON_CURRENT</LevelVisibility>
 
+			<Presentation>
+				<EmbeddedObjectPresentation>
+					<Id>1782305493559</Id>
+					<Name><![CDATA[selectPremix_presentation]]></Name>
+					<X>0</X><Y>0</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<ScaleType>AUTOMATICALLY_CALCULATED</ScaleType>
+					<GISScaleForRealEmbeddedObjectPresentationSize>1000</GISScaleForRealEmbeddedObjectPresentationSize>
+					<GISScaleForFixedEmbeddedObjectPresentationSize>1000000000</GISScaleForFixedEmbeddedObjectPresentationSize>
+					<Latitude>0.0</Latitude>
+					<Longitude>0.0</Longitude>
+				</EmbeddedObjectPresentation>
+			</Presentation>
 
 				</Level>
     			<BarChart>
@@ -11276,6 +11351,12 @@ tryFinishBaseline();
 				<Parameter>
 					<ParameterName><![CDATA[premixFailureProbability]]></ParameterName>
 				</Parameter>
+				<Parameter>
+					<ParameterName><![CDATA[pressScrapRate]]></ParameterName>
+				</Parameter>
+				<Parameter>
+					<ParameterName><![CDATA[queueStrategy]]></ParameterName>
+				</Parameter>
 			</Parameters>
 			<PresentationProperties>
 				<EnableZoomAndPanning>true</EnableZoomAndPanning>
@@ -11317,10 +11398,11 @@ try {
     if (root.numPackagingLines > 3)                parts.add("packLine"   + root.numPackagingLines);
     if (root.groupByProduct)                       parts.add("groupByProduct");
     if (root.demandMultiplier != 1.0)              parts.add("demand"     + String.valueOf(root.demandMultiplier).replace(".", "p"));
-    if (root.premixFailureProbability >= 0.0)      parts.add("i40_scrap"  + String.valueOf(root.premixFailureProbability).replace(".", "p"));
+    if (root.pressScrapRate != 0.10)               parts.add("i40_scrap"  + String.valueOf(root.pressScrapRate).replace(".", "p"));
+    if (root.queueStrategy != 0)                   parts.add("queue"      + root.queueStrategy);
     String scenario = parts.isEmpty() ? "baseline" : String.join("_", parts);
     traceln("user.dir = " + System.getProperty("user.dir"));
-    String csvPath = "/Users/jacobbrams/Simulation-in-Operations-Management/FermaCore_" + scenario + ".csv";
+    String csvPath = System.getProperty("user.dir") + "/test_data/FermaCore_" + scenario + ".csv";
 
     // --- write header on first rep, then append data ---
     boolean firstRep = (repCount == 1);
@@ -11405,6 +11487,12 @@ try {
 			<UseFreeformParameters>false</UseFreeformParameters>
 			<NumberOfRuns>1</NumberOfRuns>
 			<FreeformParamValue>	
+				<Id>1719234567890</Id>
+			</FreeformParamValue>
+			<FreeformParamValue>	
+				<Id>1719234567891</Id>
+			</FreeformParamValue>
+			<FreeformParamValue>	
 				<Id>1783000000017</Id>
 			</FreeformParamValue>
 			<FreeformParamValue>	
@@ -11435,22 +11523,27 @@ try {
 				<Id>1783000000035</Id>
 			</FreeformParamValue>
 			<RangeVariationParamValue>	
+				<Id>1719234567890</Id>
+				<Type>FIXED</Type>
+			</RangeVariationParamValue>
+			<RangeVariationParamValue>	
+				<Id>1719234567891</Id>
+				<Type>FIXED</Type>
+			</RangeVariationParamValue>
+			<RangeVariationParamValue>	
 				<Id>1783000000017</Id>
 				<Type>FIXED</Type>
-				<Expression Class="CodeValue">
-					<Code><![CDATA[1.25]]></Code>
-				</Expression>
 			</RangeVariationParamValue>
 			<RangeVariationParamValue>	
 				<Id>1783000000019</Id>
 				<Type>FIXED</Type>
-				<Expression Class="CodeValue">
-					<Code><![CDATA[2]]></Code>
-				</Expression>
 			</RangeVariationParamValue>
 			<RangeVariationParamValue>	
 				<Id>1783000000021</Id>
 				<Type>FIXED</Type>
+				<Expression Class="CodeValue">
+					<Code><![CDATA[1]]></Code>
+				</Expression>
 			</RangeVariationParamValue>
 			<RangeVariationParamValue>	
 				<Id>1783000000023</Id>
@@ -11479,9 +11572,6 @@ try {
 			<RangeVariationParamValue>	
 				<Id>1783000000035</Id>
 				<Type>FIXED</Type>
-				<Expression Class="CodeValue">
-					<Code><![CDATA[-1]]></Code>
-				</Expression>
 			</RangeVariationParamValue>
 			<ModelTimeProperties>
 				<StopOption><![CDATA[Stop at specified time]]></StopOption>

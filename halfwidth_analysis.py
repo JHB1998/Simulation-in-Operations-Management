@@ -131,7 +131,7 @@ def analyse(csv_path):
 
 
 if __name__ == "__main__":
-    csv_file = sys.argv[1] if len(sys.argv) > 1 else "FermaCore_replications.csv"
+    csv_file = sys.argv[1] if len(sys.argv) > 1 else "test_data/FermaCore_baseline.csv"
     base = Path(__file__).parent / csv_file
     if not base.exists():
         print(f"File not found: {base}")
