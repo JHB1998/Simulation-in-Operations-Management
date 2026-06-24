@@ -4,10 +4,8 @@
 \subsection{Scenario tree}
 \label{sec:scentree}
 We use a two-stage design: one-factor-at-a-time (OFAT) screening to rank the
-levers, followed by a $2^k$ factorial on the highest-impact levers, then a
-demand sweep for 2030 and the Industry~4.0 scrap scenario. The OFAT branch is
-ordered to test the analytically predicted constraints
-(Sec.~\ref{sec:capacity}) first.
+levers, followed by a combined run on the two highest-impact levers, then a
+demand sweep for 2030 and the Industry~4.0 scrap scenario.
 
 \begin{figure}[H]
 \centering
@@ -16,89 +14,103 @@ ordered to test the analytically predicted constraints
     grow'=0, draw, rounded corners, font=\footnotesize,
     edge={-Stealth}, l sep=10mm, s sep=2mm, anchor=west,
     child anchor=west, parent anchor=east, align=left}
-  [Baseline\\(bottleneck ID)
+  [Baseline\\(dryer = bottleneck)
     [OFAT screening
-      [+1 Drying / faster clean]
-      [+1 Cleaning team]
+      [{+1 Dryer ($n_\text{dryers}=2$)}]
+      [{+1 Cleaning team ($c=2$)}]
+      [{+1 Packaging line ($n_\text{pack}=4$)}]
       [Resequence (group by product)]
-      [+1 Packaging line]
     ]
-    [$2^k$ factorial\\(top levers)
-      [Best combination]
+    [Best combination\\(dryer$+$clean team)
+      [{dryer$=2$, clean$=2$}]
+      [{dryer$=2$, clean$=2$, pack$=4$}]
     ]
-    [2030 demand sweep\\($\times$1.25 / $\times$1.5 / $\times$2)
+    [2030 demand sweep\\($\times$1.25\,/\,$\times$1.5\,/\,$\times$2.0)
       [Max sustainable throughput]
     ]
-    [Industry 4.0\\(scrap 10\%$\rightarrow$4\%)]
+    [Industry 4.0\\(scrap $\rightarrow$ 4\,\%)]
   ]
 \end{forest}
 \caption{Scenario tree for the experimental study.}
 \label{fig:scentree}
 \end{figure}
 
-\subsection{Factorial design}
-\label{sec:factorial}
-After OFAT screening, the $2^k$ factorial is run on the three highest-impact
-levers identified by Table~\ref{tab:capacity} and the screening results.
+\subsection{OFAT results and bottleneck shift}
+\label{sec:btshift}
+Table~\ref{tab:btshift} reports mean station utilisation across all scenarios.
+The bold entry in each row is the binding constraint (highest utilisation).
+The key finding is that adding a dryer alone shifts the bottleneck immediately
+to the cleaning team, revealing that the two resources are \emph{co-constraints}:
+neither can be relieved without also addressing the other.
 
 \begin{table}[H]
 \centering
-\caption{$2^k$ factor settings (low $=-$, high $=+$).}
-\label{tab:factorial}
-\begin{tabularx}{\textwidth}{l X X}
+\caption{Mean station utilisation (\%) by scenario ($N=20$ reps each).
+         Bold = binding constraint. Throughput in bottles shipped (mean\,$\pm$\,95\,\% CI).}
+\label{tab:btshift}
+\small
+\begin{tabularx}{\textwidth}{l c c c c r}
 \toprule
-Factor & Low ($-$) & High ($+$) \\
+Scenario & Dryer & Clean team & Packaging & Press &
+  Throughput (bottles) \\
 \midrule
-Drying capacity        & 1 dryer & 2 dryers \\
-Cleaning-team capacity & 1 & 2 \\
-Sequencing             & plan order & grouped by product \\
-% Swap a factor for "+1 packaging line" if OFAT ranks it above one of these.
+Baseline
+  & \textbf{94.6} & 81.9 & 54.5 & 6.5
+  & $67\,487 \pm 1\,275$ \\
++1 dryer
+  & 76.3 & \textbf{95.2} & 74.0 & 6.6
+  & $67\,701 \pm 1\,074$ \\
++1 cleaning team
+  & 90.7 & \textbf{91.2} & 88.1 & 6.6
+  & $67\,894 \pm 1\,151$ \\
++1 packaging line
+  & \textbf{94.8} & 82.1 & 41.0 & 6.6
+  & $67\,919 \pm 1\,395$ \\
+Resequence (grouped)
+  & \textbf{93.2} & 86.5 & 54.9 & 6.5
+  & $67\,579 \pm 1\,387$ \\
+\midrule
++1 dryer \& +1 clean team
+  & 58.3 & \textbf{94.2} & 93.6 & 6.6
+  & $68\,794 \pm 904$ \\
++1 dryer, clean \& pack line
+  & 72.9 & \textbf{93.5} & 77.9 & 6.6
+  & $67\,633 \pm 1\,320$ \\
 \bottomrule
 \end{tabularx}
 \end{table}
 
+No individual OFAT change produces a statistically significant throughput gain:
+all single-lever confidence intervals overlap with the baseline. Only the
+combined dryer\,+\,clean-team scenario approaches significance
+($\Delta = +1{,}307$ bottles; CI $[67{,}890$--$69{,}698]$ vs.\ baseline
+$[66{,}212$--$68{,}762]$, marginal overlap of 872 bottles).
+Adding a fourth packaging line on top of the combined scenario \emph{reduces}
+throughput back to baseline levels: the extra line generates additional
+cleaning-team demand (setup and changeover), overloading the already-stressed
+cleaning team.
+
 \subsection{Results: throughput across scenarios}
 \label{sec:expresults}
-% TODO: KPI-vs-scenario figures (bar charts with CI error bars). Compare across
-% scenarios; do NOT include every run. Lead with the throughput chart.
+% TODO: insert bar chart with 95 % CI error bars (one bar per scenario).
 \begin{figure}[H]
 \centering
 \fbox{\parbox[c][40mm][c]{0.7\textwidth}{\centering\itshape
-Throughput by scenario (with 95\% CI error bars) - placeholder.}}
+Throughput by scenario (with 95\,\% CI error bars) --- placeholder.}}
 \caption{Headline KPI comparison across scenarios.}
 \label{fig:expresults}
 \end{figure}
 
-\subsection{Bottleneck shift across scenarios}
-\label{sec:btshift}
-We report per-station utilisation in every scenario, not only throughput, to
-show \emph{which} resource binds as capacity is added.
-
-\begin{table}[H]
-\centering
-\caption{Utilisation (\%) by station and scenario. Bold = binding constraint.}
-\label{tab:btshift}
-\begin{tabularx}{\textwidth}{l c c c c c}
-\toprule
-Scenario & Drying & Clean team & Packaging & Premix & Throughput \\
-\midrule
-Baseline              & \textbf{[\,]} & [\,] & [\,] & [\,] & [\,] \\
-+1 dryer              & [\,] & \textbf{[\,]} & [\,] & [\,] & [\,] \\
-+1 dryer, +clean team & [\,] & [\,] & \textbf{[\,]} & [\,] & [\,] \\
-Best combination      & [\,] & [\,] & [\,] & [\,] & [\,] \\
-\bottomrule
-\end{tabularx}
-\end{table}
-
 \subsection{2030 demand and Industry 4.0}
 \label{sec:demand40}
-Using the calibrated baseline, we scale demand via the \texttt{demandMultiplier}
-parameter to locate the maximum weekly volume the line can clear before the
-backlog grows unbounded, on both the baseline and the best configuration.
+Using the calibrated baseline and the best configuration (dryer$=2$,
+clean-team$=2$), we scale demand via \texttt{demandMultiplier} to locate the
+maximum weekly volume the line can clear before backlog grows unbounded.
 
 \begin{table}[H]
 \centering
-\caption{Maximum sustainable weekly throughput under rising demand.}
+\caption{Mean bottles shipped under rising demand ($N=20$ reps).
+         \emph{TODO: fill after demand-sweep runs.}}
 \label{tab:demand}
 \begin{tabularx}{\textwidth}{l c c c}
 \toprule
@@ -110,28 +122,44 @@ Best combination & [\,] & [\,] & [\,] \\
 \end{tabularx}
 \end{table}
 
-\paragraph{Industry 4.0 - a throughput interaction, not just a yield gain.}
-Reducing press scrap from \SI{10}{\percent} to \SI{4}{\percent} raises good
-tablets per batch, but because packaging (and the constraint) time scales with
-\texttt{tabletCount}, fewer scrapped tablets means \emph{more} tablets reaching
-the constraint. We therefore report whether the scrap reduction translates into
-higher \emph{shipped} throughput or merely shifts load onto the bottleneck
-\,(\,result: [\,]\,).
+\paragraph{Industry 4.0 --- predictive maintenance.}
+Reducing premix scrap from the data-derived \(\approx\)6\,\% to 4\,\%
+via \texttt{premixFailureProbability\,=\,0.04} models the effect of
+sensors that detect blender anomalies before a batch is lost.
+Because fewer scrapped batches means more tablets reaching the dryer and
+packaging constraint, the net throughput effect depends on whether the
+constraint can absorb the extra load.
+\emph{TODO: fill after Industry~4.0 run.} Result: [\,].
 
 \subsection{Managerial value: benefit vs.\ effort}
 \label{sec:value}
 \begin{table}[H]
 \centering
-\caption{Each lever's throughput gain against implementation effort.}
+\caption{Each lever's mean throughput gain (vs.\ baseline 67\,487 bottles)
+         against implementation effort. \emph{None of the single-lever gains
+         are statistically significant; the combined gain approaches
+         significance.}}
 \label{tab:value}
-\begin{tabularx}{\textwidth}{l c X}
+\begin{tabularx}{\textwidth}{l c c X}
 \toprule
-Lever & $\Delta$ throughput & Implementation effort / cost \\
+Lever & $\Delta$ bottles & $\Delta$\,\% & Implementation effort / cost \\
 \midrule
-Resequence (group by product) & [\,]\% & Free - scheduling change only \\
-$+1$ cleaning team            & [\,]\% & Low - additional shift / hire \\
-$+1$ dryer / shorter clean    & [\,]\% & Medium - equipment, moderate lead time \\
-$+1$ packaging line           & [\,]\% & High - capex, long lead time (the 2030 plan defers this) \\
+Resequence (group by product)
+  & \pos{92}   & \pos{0.1\,\%}
+  & Free --- scheduling change only \\
+$+1$ dryer
+  & \pos{214}  & \pos{0.3\,\%}
+  & Medium --- equipment purchase, moderate lead time \\
+$+1$ cleaning team member
+  & \pos{407}  & \pos{0.6\,\%}
+  & Low --- additional hire or shift \\
+$+1$ packaging line
+  & \pos{432}  & \pos{0.6\,\%}
+  & High --- capex, long lead time (deferred to 2030 plan) \\
+\midrule
+\textbf{+1 dryer \& +1 clean team (combined)}
+  & \pos{1{,}307} & \pos{1.9\,\%}
+  & Medium --- only lever pair that relieves both co-constraints \\
 \bottomrule
 \end{tabularx}
 \end{table}

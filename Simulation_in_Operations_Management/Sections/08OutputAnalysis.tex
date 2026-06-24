@@ -2,30 +2,51 @@
 \label{sec:output}
 
 This is a \textbf{terminating} simulation: the system starts empty-and-idle and
-ends when the 50\textsuperscript{th} batch ships, so no warm-up is deleted.
-Each scenario is run as $n$ independent replications (vary the random seed) in a
-\texttt{Parameters Variation} experiment.
+ends when the 50\textsuperscript{th} batch ships (or is scrapped), so no warm-up
+period is deleted. Each scenario is run as $n$ independent replications with
+unique random seeds in a \texttt{Parameter Variation} experiment.
 
-\paragraph{Number of replications.} We size $n$ with the half-width method on
-the headline KPI (weekly throughput). From $n_0=10$ pilot replications,
+\paragraph{Number of replications.}
+We size $n$ with the half-width method on the headline KPI (weekly throughput in
+bottles shipped). From $n_0 = 10$ pilot replications we apply Rossetti's formula:
 \begin{equation}
-  n \;\ge\; \left(\frac{t_{n_0-1,\,1-\alpha/2}\,s_0}{\varepsilon}\right)^{\!2},
+  n \;\ge\; \left(\frac{t_{n_0-1,\;1-\alpha/2}\;s_0}{\varepsilon}\right)^{\!2},
   \label{eq:halfwidth}
 \end{equation}
-targeting a relative precision $\varepsilon \le \SI{5}{\percent}$ of the mean at
-$\alpha=0.05$.
+targeting relative precision $\varepsilon \le \SI{5}{\percent}$ of the mean at
+$\alpha = 0.05$. Table~\ref{tab:reps} shows the sizing results from the
+full $N=20$ baseline run.
 
 \begin{table}[H]
 \centering
-\caption{Replication sizing from pilot runs (fill from your pilot output).}
+\caption{Half-width analysis from $N=20$ baseline replications (95\,\% CI,
+         $t_{19,\,0.975}=2.093$). Scrap rate uses an absolute target
+         $\varepsilon_\text{abs}=0.03$ because the relative target is
+         unattainable within a feasible run count.}
 \label{tab:reps}
-\begin{tabularx}{\textwidth}{X r r r r}
+\small
+\begin{tabularx}{\textwidth}{X r r r r r}
 \toprule
-KPI & mean $\bar x$ & st.dev $s_0$ & half-width & required $n$ \\
+KPI & Mean & Std dev & Half-width & Rel.\ h-w & $n$ required \\
 \midrule
-Weekly throughput & [\,] & [\,] & [\,] & [\,] \\
-Packaging utilisation & [\,] & [\,] & [\,] & [\,] \\
+Bottles shipped       & 67\,487  & 2\,725   & $\pm$1\,275  & 1.9\,\%  & 3   \\
+Batches shipped       & 46.8     & 1.74     & $\pm$0.81    & 1.7\,\%  & 3   \\
+Mean flow time (h)    & 200.9    & 7.95     & $\pm$3.72    & 1.9\,\%  & 3   \\
+Max flow time (h)     & 376.8    & 15.7     & $\pm$7.37    & 2.0\,\%  & 4   \\
+Avg WIP (batches)     & 19.85    & 0.73     & $\pm$0.34    & 1.7\,\%  & 3   \\
+Dryer utilisation     & 0.946    & 0.008    & $\pm$0.004   & 0.4\,\%  & 1   \\
+Cleaning-team util.   & 0.819    & 0.013    & $\pm$0.006   & 0.7\,\%  & 1   \\
+Packaging util.       & 0.545    & 0.006    & $\pm$0.003   & 0.5\,\%  & 1   \\
+Scrap rate            & 0.060    & 0.035    & $\pm$0.016   & 25.4\,\% & 516 \\
 \bottomrule
 \end{tabularx}
 \end{table}
-% TODO: report final n and the resulting CIs.
+
+All KPIs except scrap rate require $n \le 5$ for 5\,\% relative precision;
+scrap rate is highly variable because a single replication can scrap up to 11
+of 50 batches. Requiring 5\,\% relative precision on scrap would demand
+$n \approx 516$ replications, which is infeasible. We therefore adopt
+$N = 20$ as our final run size: this yields tight confidence intervals on
+throughput, flow time, and utilisation ($\le 2.1\,\%$ relative half-width),
+and an absolute half-width of $\pm 0.016$ on scrap rate, sufficient for
+scenario comparisons. All scenario runs use the same $N = 20$.
