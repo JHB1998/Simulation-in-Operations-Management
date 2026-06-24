@@ -9,3 +9,4 @@ database/
 # --- AnyLogic autosave files ---
 *.autosave
 **/*.autosave
+Simulation_in_Operations_Management/.DS_Store
