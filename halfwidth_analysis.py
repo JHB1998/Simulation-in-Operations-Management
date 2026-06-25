@@ -21,6 +21,7 @@ KPIS = [
     ("scrapRate",         "Scrap rate",             "—"),
     ("meanFlowTime",      "Mean flow time",         "h"),
     ("maxFlowTime",       "Max flow time",          "h"),
+    ("completionTime",    "Completion (makespan)",  "h"),
     ("flowTimeStd",       "Flow time std dev",      "h"),
     ("avgWIP",            "Avg WIP",                "batches"),
     ("dryerUtil",         "Dryer utilisation",      "—"),
@@ -102,7 +103,7 @@ def analyse(csv_path):
         except KeyError:
             continue
         n, mean, s, tc, hw, rel_hw, n_req = stats(values)
-        flag = "  <-- sizing KPI" if col == "bottlesShipped" else ""
+        flag = "  <-- sizing KPI" if col == "meanFlowTime" else ""
         n_req_str = str(n_req) if n_req is not None else "—"
         print(
             f"{label:<{col_w[0]}}"
