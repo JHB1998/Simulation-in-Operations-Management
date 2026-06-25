@@ -91,7 +91,7 @@ def main():
         premix = column(zf, "xl/worksheets/sheet4.xml") / 60.0   # PremixBlending [min] -> h
         pack = column(zf, "xl/worksheets/sheet5.xml") / 60.0     # TabletLine [min] -> h
 
-    # --- Drying: histogram + Normal fit (solid) + implemented triangular (dashed) ---
+    # --- Drying: histogram + implemented Normal fit ---
     fig, ax = plt.subplots(figsize=(4.2, 3.0))
     ax.hist(dry, bins=20, density=True, color="#9ecae1", edgecolor="white",
             label=f"Data (n={len(dry)})")
@@ -99,11 +99,7 @@ def main():
     mu, sd = dry.mean(), dry.std(ddof=1)
     p_norm = ks_p(dry, stats.norm(mu, sd))
     ax.plot(xs, stats.norm(mu, sd).pdf(xs), "r-", lw=2,
-            label=f"Normal({mu:.2f}, {sd:.2f})\nKS p={p_norm:.2f}")
-    a, b, mode = 2.703493, 5.541093, 3.748756
-    c = (mode - a) / (b - a)
-    ax.plot(xs, stats.triang(c, loc=a, scale=b - a).pdf(xs), "k--", lw=1.5,
-            label="Triangular (AnyLogic)")
+            label=f"Normal({mu:.2f}, {sd:.2f}) [implemented]\nKS p={p_norm:.2f}")
     ax.set_xlabel("Drying time [h/batch]")
     ax.set_ylabel("Density")
     ax.grid(alpha=0.3)
