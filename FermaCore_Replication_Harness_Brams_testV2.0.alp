@@ -903,7 +903,7 @@ if (groupByProduct) {
 						<UnitType><![CDATA[NONE]]></UnitType>
 						<SdArray>false</SdArray>
 						<DefaultValue Class="CodeValue">
-							<Code><![CDATA[2]]></Code>
+							<Code><![CDATA[1]]></Code>
 						</DefaultValue>
 						<ParameterEditor>
 							<Id>1783000000022</Id>
@@ -10578,7 +10578,7 @@ tryFinishBaseline();
 						<LineWidth>2.0</LineWidth>
 					</DatasetExpression>
 					<SamplesToKeep>10000</SamplesToKeep>
-					<TimeWindowExpression><![CDATA[10000]]></TimeWindowExpression>
+					<TimeWindowExpression><![CDATA[600]]></TimeWindowExpression>
 					<FillAreaUnderLine>false</FillAreaUnderLine>
 					<LabelFormat>MODEL_TIME_UNITS</LabelFormat>
     			</TimePlot>

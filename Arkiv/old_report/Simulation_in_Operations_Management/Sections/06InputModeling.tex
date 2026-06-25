@@ -1,0 +1,57 @@
+\section{Input Modelling}
+\label{sec:input}
+
+% Mandatory. Document how each distribution was obtained.
+Deterministic operation times and frequencies are taken directly from
+\texttt{FermaCore\_input\_data.xlsx}. The case requires three quantities to be
+estimated from the supplied observation sets with the distribution fitter: the
+\emph{drying processing time}, the \emph{premix/blending repair duration} and
+the \emph{packaging-line repair duration}. Each was fitted and checked with a
+Kolmogorov--Smirnov (KS) goodness-of-fit test (Table~\ref{tab:fits},
+Fig.~\ref{fig:fits}).
+
+\begin{table}[H]
+\centering
+\caption{Fitted distributions, with the Kolmogorov--Smirnov goodness-of-fit
+$p$-value and the exact AnyLogic call (repair times in hours).}
+\label{tab:fits}
+\begin{tabularx}{\textwidth}{l l l X}
+\toprule
+\textbf{Quantity} & \textbf{Distribution} & \textbf{Fitted parameters} & \textbf{AnyLogic call} \\
+\midrule
+Drying time (h/batch), $n{=}300$      & Triangular & min $2.703$, max $5.541$, mode $3.749$ (mean $4.00$) & \texttt{triangular(2.703493,} \texttt{5.541093, 3.748756)} \\
+Premix repair (h), $n{=}500$          & Lognormal  & mean $0.80$, std $2.09$ (KS $p=0.24$) & \texttt{lognormal(0.803, 2.086)} \\
+Packaging repair (h), $n{=}1000$      & Lognormal  & mean $5.01$, std $7.67$ (KS $p=0.66$) & \texttt{lognormal(5.009, 7.671)} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\paragraph{Drying-time fit.} The drying observations are symmetric about a mean
+of \SI{4.00}{h} (skewness $\approx 0$). The model implements a triangular
+distribution that reproduces the empirical mean and the full observed range
+$[2.703,5.541]$~h; a \texttt{Normal}$(4.00,0.39)$ gives a closer fit to the
+symmetric shape (Fig.~\ref{fig:fits}, KS $p=0.92$). Because drying is the
+bottleneck, throughput is driven by the \emph{mean} -- identical for both -- so
+the choice is immaterial to throughput, while the triangular yields a
+conservative (wider) variance for the flow-time and WIP measures.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.32\textwidth]{figures/fig_fit_drying.pdf}\hfill
+\includegraphics[width=0.32\textwidth]{figures/fig_fit_premix.pdf}\hfill
+\includegraphics[width=0.32\textwidth]{figures/fig_fit_packaging.pdf}
+\caption{Fitted distributions vs.\ data. Left: drying time with the Normal fit
+(KS $p=0.92$) and the triangular actually implemented (dashed). Centre/right:
+lognormal repair-time fits for the premix blenders ($p=0.24$) and the packaging
+line ($p=0.66$).}
+\label{fig:fits}
+\end{figure}
+
+\paragraph{Given distributions (not fitted).}
+Premix new Triangular(3.5,4.0,4.5) h; premix old Triangular(4.5,5.5,6.5) h;
+granulation Normal($\mu=1$, $\sigma=0.1$) h; compression \SI{2}{h}/batch;
+coating Triangular(1.5,2.0,2.5) h; packaging \SI{30000}{tablets/hour}.
+Failure inter-arrival: packaging Exponential(mean 4 h); premix old
+Weibull($\beta{=}2.5,\alpha{=}1.5$) days; premix new Weibull($\beta{=}3.5,\alpha{=}0.5$) days.
+
+% TODO: insert histogram + fitted-overlay screenshots from the fitter (figures/).

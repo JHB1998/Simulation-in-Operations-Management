@@ -1,7 +1,7 @@
 """
 Generate the data-ready report figures for FermaCore (testV2.0).
 
-Outputs (vector PDF, for Overleaf) to Simulation_in_Operations_Management/figures/:
+Outputs (vector PDF, for Overleaf) to figures/ (copy into the report repo's figures/):
     fig_throughput.pdf   - bottlesShipped per scenario, 95 % CI error bars
     fig_utilisation.pdf  - dryer / cleaning / packaging utilisation per scenario
     fig_doe.pdf          - 2^3 DOE: Pareto of effects with significance line
@@ -21,7 +21,7 @@ import matplotlib.pyplot as plt
 
 ROOT = Path(__file__).parent
 DATA = ROOT / "test_data"
-OUT = ROOT / "Simulation_in_Operations_Management" / "figures"
+OUT = ROOT / "figures"
 OUT.mkdir(parents=True, exist_ok=True)
 
 # ---------- 95 % CI half-width (t-table, df = n-1) ----------
