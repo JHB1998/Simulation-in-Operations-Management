@@ -6,33 +6,51 @@
 
 ---
 
-## 1. Design of Experiments (DOE) — BRUG, men korrekt framet
+## 1. Design of Experiments (DOE) — fuldt $2^3$, BRUG med signifikanstest
 
-DOE > OFAT er pensum-guld (Law & Kelton, Banks et al.) fordi det fanger interaktionseffekter. Lav et fuldt $2^2$ faktorielt design på **dryer × cleaningTeam** og inkludér **Main Effects Plot** + **Interaction Plot**.
+DOE > OFAT er pensum-guld (Law & Kelton, Banks et al.; course notes §6.2.2) fordi det fanger interaktionseffekter. **Vigtig rettelse:** "multi-factorial test design"-hintet står i **Healthcare-casen**, IKKE i FermaCore — brug det ikke som begrundelse her. DOE berettiges i stedet via **Specifik krav 3** (bedste kombination mod 2030) + curriculum §6.2.2. Vi har nu et **komplet, balanceret $2^3$ design**: 3 faktorer × 2 niveauer × 8 hjørner × 20 reps.
 
-### Faktiske effekter (på `bottlesShipped`, fra test_data/)
+- **A = antal dryers** (1 → 2)
+- **B = cleaning team** (1 → 2)
+- **C = antal packaging lines** (3 → 4)
+- Respons: `bottlesShipped`. Figur: `figures/fig_doe.pdf` (Pareto of effects). Analyse: `doe_analysis.py`.
 
-| Cellet design | Bottles |
-|---|---|
-| dryer=1, clean=1 (baseline) | 60.972 |
-| dryer=2, clean=1 | 60.880 |
-| dryer=1, clean=2 | 60.918 |
-| dryer=2, clean=2 | 60.183 |
+### Hjørne-middelværdier (bottles shipped, fra test_data/)
 
-| Effekt | Værdi |
-|---|---|
-| Main effect dryer | **−413 flasker** |
-| Main effect clean team | **−376 flasker** |
-| Interaktionseffekt | **−322 flasker** |
+| Hjørne | A | B | C | Mean |
+|---|---|---|---|---|
+| (1) baseline | − | − | − | 60.972 |
+| a (dryer2) | + | − | − | 60.880 |
+| b (cleanTeam2) | − | + | − | 60.918 |
+| ab | + | + | − | 60.183 |
+| c (packLine4) | − | − | + | 61.759 |
+| ac | + | − | + | 61.266 |
+| bc | − | + | + | 61.018 |
+| abc | + | + | + | 61.776 |
 
-### ⚠️ FRAMING — kritisk
+### Effekt-estimater med signifikanstest (pooled SE = 334, df = 152, 95% grænse = ±664)
 
-Skriv **IKKE** "en ekstra tørrer virker kun hvis man også har et ekstra cleaning team" eller "massiv positiv interaktion". Dataene viser det **modsatte**:
-- Begge faktorer **sænker** throughput hver for sig.
-- Interaktionen er **negativ** (−322), ikke positiv synergi.
+| Effekt | Estimat (flasker) | t | Signifikant (95%)? |
+|---|---|---|---|
+| **C — packaging line** | **+717** | **2,15** | **JA** |
+| ABC | +474 | 1,42 | nej |
+| AC | +273 | 0,82 | nej |
+| B — cleaning team | −245 | −0,74 | nej |
+| AB | +152 | 0,46 | nej |
+| A — dryer | −140 | −0,42 | nej |
+| BC | +130 | 0,39 | nej |
+
+### ⚠️ FRAMING — kritisk (dette er den rigorøse konklusion)
+
+Med proper signifikanstest er konklusionen **renere** end et naivt 2² ville give:
+- **Dryer (A) og cleaning team (B) har INGEN signifikant effekt på throughput.** De ligger godt inden for støjen — skriv IKKE at de "sænker" throughput; det ville være overtolkning af punktestimater.
+- **Ingen interaktion er signifikant** — heller ikke AB. Whack-a-mole / bottleneck-skiftet er reelt, men det lever i **utilisation** (`fig_utilisation.pdf`), ikke i throughput-tallene.
+- **Kun en ekstra packaging line (C) rykker throughput signifikant** — og kun med **+717 flasker (+1,2%)**, lige akkurat over støjgrænsen.
 
 ### Korrekt narrativ
-> Kapacitetsinvestering **flytter flaskehalsen** (dryer → cleaning team → packaging) frem for at hæve output. Den negative interaktion og de negative main effects beviser matematisk, at blind investering i én eller flere maskiner er værdiløs i throughput. Interaktionen er synlig i **utilisation/bottleneck-skift**, ikke i throughput — derfor skal Main Effects + Interaction Plot læses sammen med utilisationstallene.
+> Det fulde $2^3$ faktorielle design viser, at af de tre kapacitetsfaktorer er **kun packaging-linjen statistisk signifikant** (+717 flasker, +1,2%); dryer- og cleaning-kapacitet samt samtlige interaktioner er ikke til at skelne fra nul. OFAT ville have overset dette ved at fejltolke tilfældig variation som effekter. Det beviser matematisk, at maskininvestering i dryer/clean er spild, og at selv den eneste reelle løftestang (packaging) giver en triviel gevinst sammenlignet med I4.0 (+4.764 flasker, +7,8%, ingen CAPEX). Bottleneck-skiftet aflæses separat i utilisation.
+
+> **Antagelse at nævne (cheatsheet):** $2^k$ med 2 niveauer antager lineær respons mellem niveauerne.
 
 ---
 
@@ -72,7 +90,7 @@ For `dryer2_cleanTeam2_packLine4`:
 - Throughput-gevinst ≈ flad (~61k, inden for CI af baseline)
 - **Konklusion: massiv OPEX-stigning for nul reel gevinst.**
 
-Sammenlign med I4.0 (press-scrap 10%→4%): **engangs** sensorinvestering, +4.109 flasker/uge (+6,7%) — klart bedst pr. investeret krone, ingen løbende OPEX.
+Sammenlign med I4.0 (press-scrap 10%→4%): **engangs** sensorinvestering, +4.764 flasker/uge (+7,8%) — klart bedst pr. investeret krone, ingen løbende OPEX.
 
 ### 3b. WIP-besparelse ❌ DROP
 
@@ -89,7 +107,7 @@ Forskel = 0,1 batch (0,5%) → i praksis **identisk**. Skriv **IKKE** at groupBy
 
 | Vinkel | Verdikt | Handling i Overleaf |
 |---|---|---|
-| DOE (dryer × clean) | ✅ Brug | Main Effects + Interaction Plot; framing = bottleneck-shift / negativ interaktion, INGEN "synergi" |
+| DOE — fuldt $2^3$ (dryer × clean × pack) | ✅ Brug | Pareto of effects (`fig_doe.pdf`) + signifikanstabel; framing = **kun packaging signifikant (+1,2%)**, dryer/clean + interaktioner ikke signifikante |
 | OTD / Tardiness | ❌ Drop | Udelad — OTD=100% overalt, ingen variation |
 | Økonomi: CAPEX-paradoks | ✅ Brug | Cost-funktion (illustrativ), €16.100/uge for ~0 gevinst vs. I4.0 |
 | Økonomi: WIP-besparelse | ❌ Drop | WIP uændret (19,53 vs. 19,43) |
