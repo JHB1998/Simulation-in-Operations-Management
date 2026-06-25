@@ -2624,10 +2624,7 @@ return 0;]]></Body>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
-					<Body><![CDATA[// Fitted from 300 DryingConditioning observations in FermaCore_input_data.xlsx.
-// min = 2.703493 h, max = 5.541093 h, mean = 3.997781 h.
-// Triangular mode inferred from mean: mode = 3*mean - min - max = 3.748756 h.
-return triangular(2.703493, 5.541093, 3.748756);
+					<Body><![CDATA[return normal(0.39, 4.0);
 ]]></Body>
 				</Function>
 				<Function AccessType="default" StaticFunction="false">
@@ -11525,10 +11522,16 @@ try {
 			<RangeVariationParamValue>	
 				<Id>1719234567890</Id>
 				<Type>FIXED</Type>
+				<Expression Class="CodeValue">
+					<Code><![CDATA[0.04]]></Code>
+				</Expression>
 			</RangeVariationParamValue>
 			<RangeVariationParamValue>	
 				<Id>1719234567891</Id>
 				<Type>FIXED</Type>
+				<Expression Class="CodeValue">
+					<Code><![CDATA[1]]></Code>
+				</Expression>
 			</RangeVariationParamValue>
 			<RangeVariationParamValue>	
 				<Id>1783000000017</Id>
@@ -11540,16 +11543,10 @@ try {
 			<RangeVariationParamValue>	
 				<Id>1783000000019</Id>
 				<Type>FIXED</Type>
-				<Expression Class="CodeValue">
-					<Code><![CDATA[2]]></Code>
-				</Expression>
 			</RangeVariationParamValue>
 			<RangeVariationParamValue>	
 				<Id>1783000000021</Id>
 				<Type>FIXED</Type>
-				<Expression Class="CodeValue">
-					<Code><![CDATA[1]]></Code>
-				</Expression>
 			</RangeVariationParamValue>
 			<RangeVariationParamValue>	
 				<Id>1783000000023</Id>
@@ -11566,9 +11563,6 @@ try {
 			<RangeVariationParamValue>	
 				<Id>1783000000029</Id>
 				<Type>FIXED</Type>
-				<Expression Class="CodeValue">
-					<Code><![CDATA[4]]></Code>
-				</Expression>
 			</RangeVariationParamValue>
 			<RangeVariationParamValue>	
 				<Id>1783000000031</Id>
