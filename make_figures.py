@@ -20,7 +20,7 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
 ROOT = Path(__file__).parent
-DATA = ROOT / "test_data"
+DATA = ROOT / "data"
 OUT = ROOT / "figures"
 OUT.mkdir(parents=True, exist_ok=True)
 
@@ -70,15 +70,9 @@ SCENARIOS = [
     ("groupByProduct",                        "Resequence"),
     ("dryer2_cleanTeam2",                     "dryer2+clean2"),
     ("dryer2_cleanTeam2_packLine4",           "dryer2+clean2+pack4"),
-    ("demand1p25",                            "Demand x1.25"),
-    ("demand1p5",                             "Demand x1.5"),
-    ("demand2p0",                             "Demand x2.0"),
-    ("i40_scrap0p04",                         "I4.0 (scrap 4%)"),
-    ("dryer2_cleanTeam2_demand1p25",          "dryer2+clean2+x1.25"),
-    ("dryer2_cleanTeam2_packLine4_demand1p25","d2+c2+p4+x1.25"),
     ("queue1",                                "EDD queue"),
     ("queue2",                                "SPT queue"),
-    ("dryer2_demand1p25_queue1",              "dryer2+x1.25+EDD"),
+    ("i40_scrap0p04",                         "I4.0 (scrap 4%)"),
 ]
 
 DATAW = {key: load(key) for key, _ in SCENARIOS}
@@ -225,9 +219,36 @@ def fig_doe():
           f"significant = {sig or 'none'}")
 
 
+def fig_volume():
+    """Mean flow time (bars) and on-time delivery (line) vs order-book size N."""
+    vols = [("baseline", 50), ("batches75", 75), ("batches100", 100)]
+    xs = [str(n) for _, n in vols]
+    flow = [load(k)["meanFlowTime"][0] for k, _ in vols]
+    flow_hw = [load(k)["meanFlowTime"][1] for k, _ in vols]
+    otd = [load(k)["onTimePct"][0] for k, _ in vols]
+    fig, ax1 = plt.subplots(figsize=(5.0, 3.2))
+    ax1.bar(xs, flow, yerr=flow_hw, color="#9ecae1", edgecolor="white",
+            capsize=4, label="Mean flow time")
+    ax1.set_xlabel("Order book size (batches)")
+    ax1.set_ylabel("Mean flow time [h]")
+    ax2 = ax1.twinx()
+    ax2.plot(xs, otd, "o-", color="#d62728", lw=2, label="On-time %")
+    ax2.set_ylabel("On-time delivery [%]")
+    ax2.set_ylim(0, 105)
+    for x, y in zip(xs, otd):
+        ax2.annotate(f"{y:.0f}%", (x, y), textcoords="offset points",
+                     xytext=(0, 8), ha="center", fontsize=8, color="#d62728")
+    ax1.grid(axis="y", alpha=0.3)
+    fig.tight_layout()
+    fig.savefig(OUT / "fig_volume.pdf")
+    plt.close(fig)
+    print("  wrote fig_volume.pdf")
+
+
 if __name__ == "__main__":
     print(f"Reading {len(SCENARIOS)} scenarios from {DATA}")
     fig_throughput()
     fig_utilisation()
     fig_doe()
+    fig_volume()
     print(f"Done. Figures in {OUT}")
