@@ -11744,16 +11744,10 @@ new java.io.File(System.getProperty("user.dir") + "/data").mkdirs();
 			<RangeVariationParamValue>	
 				<Id>1783000000019</Id>
 				<Type>FIXED</Type>
-				<Expression Class="CodeValue">
-					<Code><![CDATA[2]]></Code>
-				</Expression>
 			</RangeVariationParamValue>
 			<RangeVariationParamValue>	
 				<Id>1783000000021</Id>
 				<Type>FIXED</Type>
-				<Expression Class="CodeValue">
-					<Code><![CDATA[2]]></Code>
-				</Expression>
 			</RangeVariationParamValue>
 			<RangeVariationParamValue>	
 				<Id>1783000000023</Id>
@@ -11786,9 +11780,6 @@ new java.io.File(System.getProperty("user.dir") + "/data").mkdirs();
 			<RangeVariationParamValue>	
 				<Id>1783000000904</Id>
 				<Type>FIXED</Type>
-				<Expression Class="CodeValue">
-					<Code><![CDATA[75]]></Code>
-				</Expression>
 			</RangeVariationParamValue>
 			<RangeVariationParamValue>	
 				<Id>1783000000970</Id>
