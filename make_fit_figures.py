@@ -103,7 +103,7 @@ def main():
     ax.set_xlabel("Drying time [h/batch]")
     ax.set_ylabel("Density")
     ax.grid(alpha=0.3)
-    ax.legend(fontsize=7)
+    ax.legend(fontsize=7, loc="upper right")
     fig.tight_layout()
     fig.savefig(OUT / "fig_fit_drying.pdf")
     plt.close(fig)
